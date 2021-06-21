@@ -1,12 +1,19 @@
 import React, { memo } from 'react';
+
 import { NavLink } from 'react-router-dom';
+import { HeaderWrapper, HeaderLeft, HeaderRight } from './style';
+
 
 export default memo(function CMAppHeader() {
     return (
-        <div>
-            <NavLink to="/">发现音乐</NavLink>
-            <NavLink to="/my">我的音乐</NavLink>
-            <NavLink to="/friend">朋友</NavLink>
-        </div>
+        <HeaderWrapper>
+            <div className="content wrap-v1">
+                <HeaderLeft>
+                    <a href="#/" className="logo sprite_01"></a>
+                </HeaderLeft>
+                <HeaderRight>Right</HeaderRight>
+            </div>
+            <div className="divider"></div>
+        </HeaderWrapper>
     )
 })
