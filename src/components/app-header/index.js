@@ -1,15 +1,45 @@
 import React, { memo } from 'react';
-
 import { NavLink } from 'react-router-dom';
-import { HeaderWrapper, HeaderLeft, HeaderRight } from './style';
 
+import { HeaderWrapper, HeaderLeft, HeaderRight } from './style';
+import { headerLinks } from '@/services/local-data';
 
 export default memo(function CMAppHeader() {
+
+    // mark: currently, I don't decide to design download page.
+    // so for download page, I use the external link.
+    const showSelectItem = (item, index) => {
+        if (index < 3) {
+            return (
+                <NavLink to={item.link} exact>
+                    {item.title}
+                    <i className="sprite_01 icon" />
+                </NavLink>
+            )
+        }
+        else {
+            return (
+                <a href={item.link} target="_blank" >{item.title}</a>
+            )
+        }
+    }
+
     return (
         <HeaderWrapper>
             <div className="content wrap-v1">
                 <HeaderLeft>
                     <a href="#/" className="logo sprite_01"></a>
+                    <div className="select-list">
+                        {
+                            headerLinks.map((item, index) => {
+                                return (
+                                    <div key={item.title} className="select-item">
+                                        {showSelectItem(item, index)}
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </HeaderLeft>
                 <HeaderRight>Right</HeaderRight>
             </div>
