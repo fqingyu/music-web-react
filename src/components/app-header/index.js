@@ -21,7 +21,7 @@ export default memo(function CMAppHeader() {
         }
         else {
             return (
-                <a href={item.link} target="_blank" >{item.title}</a>
+                <a href={item.link} target="_blank" rel="noreferrer">{item.title}</a>
             )
         }
     }
@@ -30,7 +30,7 @@ export default memo(function CMAppHeader() {
         <HeaderWrapper>
             <div className="content wrap-v1">
                 <HeaderLeft>
-                    <a href="#/" className="logo sprite_01"></a>
+                    <a href="#/" className="logo sprite_01" > </a>
                     <div className="select-list">
                         {
                             headerLinks.map((item, index) => {
