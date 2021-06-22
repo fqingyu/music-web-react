@@ -60,7 +60,7 @@ export const HeaderLeft = styled.div`
                 background: #000;
                 text-decoration: none;
             }
-            
+
             .active .icon {
                 position: absolute;
                 display: inline-block;
@@ -77,4 +77,45 @@ export const HeaderLeft = styled.div`
 `
 
 export const HeaderRight = styled.div`
+    display: flex;
+    align-items: center;
+
+    .search {
+        width: 158px;
+        height: 32px;
+        border-radius: 16px;
+    }
+
+    input {
+        &::placeholder {
+            font-size: 12px;
+        }
+    }
+
+    .creator-center {
+        background-color: transparent;
+        color: #ccc;
+        margin-left: 12px;
+        width: 90px;
+        height: 32px;
+        border-radius: 16px;
+        border: 1px solid #4F4F4F;
+        &:hover {
+            color: #fff;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+    }
+
+    .login {
+        background-color: transparent;
+        color: #787878;
+        margin-left: 14px;
+        height: 32px;
+        &:hover {
+            color: #999;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
 `

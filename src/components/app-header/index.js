@@ -1,5 +1,7 @@
 import React, { memo } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 
 import { HeaderWrapper, HeaderLeft, HeaderRight } from './style';
 import { headerLinks } from '@/services/local-data';
@@ -41,7 +43,11 @@ export default memo(function CMAppHeader() {
                         }
                     </div>
                 </HeaderLeft>
-                <HeaderRight>Right</HeaderRight>
+                <HeaderRight>
+                    <Input className="search" placeholder="音乐/视频/电台/用户" prefix={<SearchOutlined />} />
+                    <button className="creator-center">创作者中心</button>
+                    <button className="login">登录</button>
+                </HeaderRight>
             </div>
             <div className="divider"></div>
         </HeaderWrapper>
