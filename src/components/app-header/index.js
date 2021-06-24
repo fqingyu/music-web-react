@@ -13,7 +13,7 @@ export default memo(function CMAppHeader() {
     const showSelectItem = (item, index) => {
         if (index < 3) {
             return (
-                <NavLink to={item.link} exact>
+                <NavLink to={item.link} replace>
                     {item.title}
                     <i className="sprite_01 icon" />
                 </NavLink>
@@ -30,7 +30,7 @@ export default memo(function CMAppHeader() {
         <HeaderWrapper>
             <div className="content wrap-v1">
                 <HeaderLeft>
-                    <a href="#/" className="logo sprite_01" > </a>
+                    <a href="#/" className="logo sprite_01" >网易云音乐</a>
                     <div className="select-list">
                         {
                             headerLinks.map((item, index) => {

@@ -57,6 +57,7 @@ export const FooterRight = styled.ul`
             background: url(${sprite_footer_02}) no-repeat;
             background-size: 110px 552px;
             margin: 0 auto;
+            text-indent: -99999px;
         }
 
         :nth-child(1) .link {

@@ -38,7 +38,7 @@ export default memo(function CMAppFooter() {
                         footerImages.map((item, index) => {
                             return (
                                 <li key={item.link} className="item">
-                                    <a className="link" href={item.link} rel="noopener noreferrer" target="_blank"></a>
+                                    <a className="link" href={item.link} rel="noopener noreferrer" target="_blank">网易云音乐</a>
                                     <span className="title"></span>
                                 </li>
                             )
