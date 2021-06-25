@@ -5,6 +5,7 @@ import sprite_footer_02 from '@/assets/img/sprite_footer_02.png';
 export const FooterWrapper = styled.div`
     height: 172px;
     background-color: #f2f2f2;
+    border-top: 1px solid #d3d3d3;
     .content {
         display: flex;
         justify-content: space-between;
