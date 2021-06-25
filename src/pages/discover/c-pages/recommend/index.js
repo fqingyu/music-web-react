@@ -1,30 +1,24 @@
 import React, { memo, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getTopBannerAction } from './store/actionCreators';
 
 function CMRecommend(props) {
-    const { getBanners, topBanners } = props;
 
+    const { topBanners } = useSelector(state => ({
+        topBanners: state.recommend.topBanners
+    }));
+    const dispatch = useDispatch();
+    
     useEffect(() => {
-        getBanners();
-    }, [getBanners])
+        dispatch(getTopBannerAction());
+    }, [dispatch])
 
     return (
         <div>
-            <h2>CMRecommend: {topBanners.length}</h2>
+            <h2>CMRecommend {topBanners.length}</h2>
         </div>
     )
 }
 
-const mapStateToProps = state => ({
-    topBanners: state.recommend.topBanners
-});
-
-const mapDispatchToProps = dispatch => ({
-    getBanners: () => {
-        dispatch(getTopBannerAction());
-    }
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(memo(CMRecommend));
+export default memo(CMRecommend);
