@@ -1,44 +1,16 @@
 import originAxios from 'axios';
-import { message, Spin } from 'antd';
-import ReactDOM from 'react-dom';
-
 
 export default function request(option) {
     return new Promise((resolve, reject) => {
 
-        // loading
-        // let requestCount = 0;
-        // function showLoading() {
-        //     if (requestCount === 0) {
-        //         var dom = document.createElement('div');
-        //         dom.setAttribute('id', 'loading');
-        //         document.body.appendChild(dom);
-        //         ReactDOM.render(<Spin tip="加载中..." size="large" />, dom);
-        //     }
-        //     requestCount++;
-        // }
-
-        // function hideLoading() {
-        //     requestCount--
-        //     if (requestCount === 0) {
-        //         document.body.removeChild(document.getElementById('loading'))
-        //     }
-        // }
-
-
-        // 1.创建axios的实例
         const instance = originAxios.create({
             baseURL: 'https://netease-cloud-music-api-chi-navy.vercel.app/',
-            timeout: 10000
+            timeout: 5000
         });
 
-        // 配置请求和响应拦截
         instance.interceptors.request.use(config => {
-            // console.log('来到了request拦截success中');
             // 1.当发送网络请求时, 在页面中添加一个loading组件, 作为动画
-            // if (config.headers.isLoading !== false) {
-            //     showLoading();
-            // }
+
             // 2.某些请求要求用户必须登录, 判断用户是否有token, 如果没有token跳转到login页面
 
             // 3.对请求的参数进行序列化(看服务器是否需要序列化)
@@ -48,17 +20,12 @@ export default function request(option) {
             // 4.等等
             return config
         }, err => {
-            // console.log('来到了request拦截failure中');
             return err
         })
 
         instance.interceptors.response.use(response => {
-            // if (response.config.headers.isLoading !== false) {
-            //     hideLoading()
-            // }
             return response.data
         }, err => {
-            console.log('来到了response拦截failure中');
             console.log(err);
             if (err && err.response) {
                 switch (err.response.status) {
@@ -75,7 +42,6 @@ export default function request(option) {
             return err
         })
 
-        // 2.传入对象进行网络请求
         instance(option).then(res => {
             resolve(res)
         }).catch(err => {
