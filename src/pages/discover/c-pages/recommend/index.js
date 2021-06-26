@@ -6,7 +6,7 @@ import { getTopBannerAction } from './store/actionCreators';
 function CMRecommend() {
 
     const { topBanners } = useSelector(state => ({
-        topBanners: state.recommend.get("topBanners")
+        topBanners: state.getIn(["recommend", "topBanners"])
     }), shallowEqual);
     const dispatch = useDispatch();
     
