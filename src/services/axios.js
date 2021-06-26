@@ -5,7 +5,7 @@ export default function request(option) {
 
         const instance = originAxios.create({
             baseURL: 'https://netease-cloud-music-api-chi-navy.vercel.app/',
-            timeout: 5000
+            timeout: 10000
         });
 
         instance.interceptors.request.use(config => {

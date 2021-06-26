@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 
 import { footerLinks, footerImages } from '@/services/local-data.js'
+
 import { FooterWrapper, FooterLeft, FooterRight } from './style'
 
 export default memo(function CMAppFooter() {

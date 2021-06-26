@@ -1,5 +1,6 @@
-  
 import styled from 'styled-components';
+
+import r_icon from '@/assets/img/r_icon.png';
 
 export const DiscoverWrapper = styled.div`
   .bar {
@@ -15,6 +16,7 @@ export const TopMenu = styled.div`
   top: -4px;
   .item {
     a {
+      position: relative;
       display: inline-block;
       height: 20px;
       line-height: 20px;
@@ -26,6 +28,16 @@ export const TopMenu = styled.div`
         background-color: #9B0909;
         border-radius: 20px;
       }
+    }
+
+    .icon {
+      position: absolute;
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      top: 2px;
+      background-size: cover;
+      background-image: url(${r_icon});
     }
   }
 `
