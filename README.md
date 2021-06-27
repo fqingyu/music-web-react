@@ -8,6 +8,22 @@
 - 后端数据源采用了公开的 [网易云音乐API ](https://binaryify.github.io/NeteaseCloudMusicApi/#/ "网易云音乐api")配合vercel搭建。
 API地址: [点击这里](https://netease-cloud-music-api-chi-navy.vercel.app/ "点击这里")
 
+### 项目规范
+- 文件夹名称统一小写，多个单词以符号(-)连接
+- js文件中，import引用先后顺序采用如下逻辑：
+  - pacakge相关引用
+  - 个人配置相关引用
+  - 组件相关引用(包括antd相关组件)
+- 函数组件内部代码顺序采用如下逻辑：
+  - 组件内部的状态管理代码
+  - redux相关的hooks代码
+  - 其他组件的hooks代码
+  - 其他逻辑代码
+  - 返回JSX
+- 网络请求采用axiso，并进行二次封装，方便统一管理，另一方面后端接口更改时也方便做统一修改
+- 所有网络请求统一放在service目录下对应组件名文件下进行统一管理
+- 部分暂未找到相关接口的数据统一放在services/local-data进行存储
+
 ### 具体功能实现 & 后续计划  
 待补充
 
