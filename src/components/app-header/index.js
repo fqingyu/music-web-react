@@ -13,7 +13,7 @@ export default memo(function CMAppHeader() {
     const showSelectItem = (item, index) => {
         if (index < 3) {
             return (
-                <NavLink to={item.link} replace>
+                <NavLink to={item.link}>
                     {item.title}
                     <i className="sprite_01 icon" />
                 </NavLink>
@@ -21,7 +21,7 @@ export default memo(function CMAppHeader() {
         }
         else {
             return (
-                <a href={item.link} target="_blank" rel="noreferrer">{item.title}</a>
+                <a href={item.link} target="_blank" rel="noopener noreferrer">{item.title}</a>
             )
         }
     }
