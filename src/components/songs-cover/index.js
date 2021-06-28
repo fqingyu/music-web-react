@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 import {
     getSizeImage,
@@ -13,7 +14,7 @@ const CMSongsCover = memo(function (props) {
     function displayAuthorPart(displayAuthor) {
         if (displayAuthor) {
             return (
-                <div className="cover-source">
+                <div className="cover-source text-nowrap">
                     by {info.copywriter || info.creator.nickname}
                 </div>
             )
@@ -25,18 +26,18 @@ const CMSongsCover = memo(function (props) {
 
     return (
         <SongsCoverWrapper right={right}>
-            <div className="cover-top">
+            <NavLink className="cover-top" title={info.name} to={`/playlist?id=${info.id}`}>
                 <img src={getSizeImage(info.picUrl || info.coverImgUrl, 140)} alt="songs-cover" />
-                <div className="cover sprite_covor">
-                    <div className="info sprite_covor">
+                <div className="cover sprite_cover">
+                </div>
+            </NavLink>
+            <div className="info sprite_cover">
                         <span>
                             <i className="sprite_icon headset"></i>
                             {getCount(info.playCount)}
                         </span>
                         <i className="sprite_icon play-icon"></i>
                     </div>
-                </div>
-            </div>
             <div className="cover-bottom">
                 {info.name}
             </div>
