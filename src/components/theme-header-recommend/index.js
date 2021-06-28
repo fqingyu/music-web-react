@@ -1,12 +1,13 @@
-import React, { memo } from 'react'
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 
-import { HeaderWrapper } from './style'
+import { HeaderWrapper } from './style';
 
-export default memo(function CMThemeHeaderRecommend(props) {
-    const { title, keywords } = props;
+ const CMThemeHeaderRecommend = memo(function (props) {
+    const { title, keywords, moreLinks } = props;
 
     return (
-        <HeaderWrapper>
+        <HeaderWrapper className="sprite_02">
             <div className="left">
                 <h3 className="title">{title}</h3>
                 <div className="keyword">
@@ -23,10 +24,23 @@ export default memo(function CMThemeHeaderRecommend(props) {
                 </div>
             </div>
             <div className="right">
-                <a href="todo">更多</a>
+                <a href={moreLinks}>更多</a>
                 <i className="icon sprite_02"></i>
             </div>
 
         </HeaderWrapper>
     )
 })
+
+CMThemeHeaderRecommend.propTypes = {
+    title: PropTypes.string.isRequired,
+    keywords: PropTypes.array,
+    moreLinks: PropTypes.string
+}
+
+CMThemeHeaderRecommend.defaultProps = {
+    keywords: [],
+    moreLinks: "todo"
+}
+
+export default CMThemeHeaderRecommend;
