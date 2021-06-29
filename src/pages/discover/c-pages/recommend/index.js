@@ -4,7 +4,7 @@ import { RecommendWrapper, Content, RecommendLeft, RecommendRight } from './styl
 import CMTopBanner from './c-cpns/top-banner';
 import CMHotRecommend from './c-cpns/hot-recommend';
 import CMNewAlbum from './c-cpns/new-album';
-import CMRecommendRanking from './c-cpns/recommend-ranking';
+import CMRecommendRanking from './c-cpns/ranking-list';
 
 function CMRecommend() {
     return (
