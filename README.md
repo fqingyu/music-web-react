@@ -20,7 +20,7 @@ API地址: [点击这里](https://netease-cloud-music-api-chi-navy.vercel.app/ "
   - 其他组件的hooks代码
   - 其他逻辑代码
   - 返回JSX
-- 网络请求采用axiso，并进行二次封装，方便统一管理，另一方面后端接口更改时也方便做统一修改
+- 网络请求采用axios，并进行二次封装，方便统一管理，另一方面后端接口更改时也方便做统一修改
 - 所有网络请求统一放在service目录下对应组件名文件下进行统一管理
 - 部分暂未找到相关接口的数据统一放在services/local-data进行存储
 
