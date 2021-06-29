@@ -11,11 +11,12 @@ import CMSongsCover from '@/components/songs-cover'
 
 export default memo(function CMHotRecommend() {
 
+    // redux hooks
     const { hotRecommends } = useSelector(state => ({
         hotRecommends: state.getIn(["recommend", "hotRecommends"])
     }), shallowEqual);
+    
     const dispatch = useDispatch();
-
     useEffect(() => {
         dispatch(getHotRecommendAction(HOT_RECOMMEND_LIMIT));
     }, [dispatch]);

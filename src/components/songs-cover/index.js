@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
@@ -10,8 +10,11 @@ import {
 import { SongsCoverWrapper } from './style'
 
 const CMSongsCover = memo(function (props) {
+    // inner state
     const { info, right, displayAuthor } = props;
-    function displayAuthorPart(displayAuthor) {
+
+    // ohter logic
+    const displayAuthorPart = useCallback((displayAuthor) => {
         if (displayAuthor) {
             return (
                 <div className="cover-source text-nowrap">
@@ -22,7 +25,7 @@ const CMSongsCover = memo(function (props) {
         else {
             return;
         }
-    }
+    }, [info])
 
     return (
         <SongsCoverWrapper right={right}>

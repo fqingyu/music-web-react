@@ -7,17 +7,21 @@ import { BannerWrapper, BannerLeft, BannerRight, BannerControl } from './style';
 import { Carousel } from 'antd';
 
 export default memo(function CMTopBanner() {
+    // inner state
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    // redux hooks
     const { topBanners } = useSelector(state => ({
         topBanners: state.getIn(["recommend", "topBanners"])
     }), shallowEqual);
     const dispatch = useDispatch();
-
-    const bannerRef = useRef();
+    
+    // ohter hooks
     useEffect(() => {
         dispatch(getTopBannerAction());
     }, [dispatch]);
+
+    const bannerRef = useRef();
     const bannerChange = useCallback((from, to) => {
         setCurrentIndex(to);
     }, []);
