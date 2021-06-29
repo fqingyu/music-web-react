@@ -45,7 +45,9 @@ export default memo(function CMTopRanking(props) {
                     })
                 }
             </div>
-            <div className="footer"></div>
+            <div className="footer">
+                <NavLink to={`/discover/toplist?id=${info.id}`}>查看全部&gt;</NavLink>
+            </div>
         </TopRankingWrapper>
     )
 })
