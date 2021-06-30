@@ -1,10 +1,20 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+
+import { getSongDetailAction } from '../store/actionCreators';
 
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
 
-
 export default memo(function CMPAppPlayerBar() {
+
+    // redux hook
+    const dispatch = useDispatch();
+    // other hooks
+    useEffect(() => {
+        dispatch(getSongDetailAction(167876))
+    }, [dispatch])
+
     return (
         <PlayerBarWrapper className="sprite_playbar">
             <div className="content wrap-v2">
@@ -25,7 +35,7 @@ export default memo(function CMPAppPlayerBar() {
                             <a href="#/" className="singer-name">要不要买菜</a>
                         </div>
                         <div className="progress">
-                            <Slider defaultValue={30} tooltipVisible={false}/>
+                            <Slider defaultValue={30} tooltipVisible={false} />
                             <div className="time">
                                 <span className="now-time">02:30</span>
                                 <span className="divider">/</span>

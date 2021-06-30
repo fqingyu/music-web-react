@@ -48,7 +48,7 @@ export default memo(function CMSettlerSinger() {
                 }
             </ul>
             <div className="recruit">
-                <a target="_blank" href="https://music.163.com/recruit" className="sprite_button btn">
+                <a target="_blank" href="https://music.163.com/recruit" rel="noreferrer" className="sprite_button btn">
                     <i className="content sprite_button">申请成为网易音乐人</i>
                 </a>
             </div>
