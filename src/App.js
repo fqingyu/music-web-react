@@ -8,6 +8,7 @@ import store from '@/store'
 
 import CMAppHeader from '@/components/app-header';
 import CMAppFooter from '@/components/app-footer';
+import CMAppPlayerBar from '@/pages/player/app-player-bar'
 
 export default memo(function App() {
     return (
@@ -16,6 +17,7 @@ export default memo(function App() {
                 <CMAppHeader />
                 {renderRoutes(routes)}
                 <CMAppFooter />
+                <CMAppPlayerBar />
             </HashRouter>
         </Provider >
     )
