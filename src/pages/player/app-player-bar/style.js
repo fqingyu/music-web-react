@@ -61,7 +61,7 @@ export const PlayInfo = styled.div`
     display: flex;
     width: 642px;
     align-items: center;
-    .image {
+    img {
         width: 34px;
         height: 34px;
         border-radius: 5px;
