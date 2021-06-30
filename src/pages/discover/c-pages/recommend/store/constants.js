@@ -5,3 +5,5 @@ export const CHANGE_NEW_ALBUMS = "recommend/CHANGE_NEW_ALBUMS";
 export const CHANGE_UP_RANKING = "recommend/CHANGE_UP_RANKING";
 export const CHANGE_NEW_RANKING = "recommend/CHANGE_NEW_RANKING";
 export const CHANGE_ORIGINAL_RANKING = "recommend/CHANGE_ORIGINAL_RANKING";
+
+export const CHANGE_SETTLE_SINGER = "recommend/CHANGE_SETTLE_SINGER";

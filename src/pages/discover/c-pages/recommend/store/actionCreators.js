@@ -1,5 +1,5 @@
 import * as actionTypes from './constants';
-import { getTopBanners, getHotRecommends, getNewAlbums, getTopList } from '@/services/recommend';
+import { getTopBanners, getHotRecommends, getNewAlbums, getTopList, getSettleSinger } from '@/services/recommend';
 import { NEW_ALBUM_LIMIT, RANKING_LIST_IDS } from '@/common/constants';
 
 const changeTopBannerAction = (res) => ({
@@ -32,6 +32,11 @@ const changeOriginalRankingAction = (res) => ({
     rankList: res.playlist
 })
 
+const changeSettleSingerAction = (res) => ({
+    type: actionTypes.CHANGE_SETTLE_SINGER,
+    settleSingers: res.artists
+})
+
 export const getTopBannerAction = () => {
     return (dispatch) => {
         getTopBanners().then(res => {
@@ -59,7 +64,7 @@ export const getNewAlbumAction = (limit) => {
 export const getTopListAction = (id) => {
     return dispatch => {
         getTopList(id).then(res => {
-            switch(id) {
+            switch (id) {
                 case RANKING_LIST_IDS[0]:
                     dispatch(changeUpRankingAction(res));
                     break;
@@ -71,6 +76,14 @@ export const getTopListAction = (id) => {
                     break;
                 default:
             }
+        })
+    }
+}
+
+export const getSettleSingerAction = () => {
+    return dispatch => {
+        getSettleSinger(5).then(res => {
+            dispatch(changeSettleSingerAction(res))
         })
     }
 }

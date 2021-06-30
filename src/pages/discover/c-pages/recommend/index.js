@@ -5,6 +5,9 @@ import CMTopBanner from './c-cpns/top-banner';
 import CMHotRecommend from './c-cpns/hot-recommend';
 import CMNewAlbum from './c-cpns/new-album';
 import CMRecommendRanking from './c-cpns/ranking-list';
+import CMUserLogin from './c-cpns/user-login';
+import CMSettlerSinger from './c-cpns/settle-singer';
+import CMHotDj from './c-cpns/hot-dj';
 
 function CMRecommend() {
     return (
@@ -16,7 +19,11 @@ function CMRecommend() {
                     <CMNewAlbum />
                     <CMRecommendRanking />
                 </RecommendLeft>
-                <RecommendRight></RecommendRight>
+                <RecommendRight>
+                    <CMUserLogin />
+                    <CMSettlerSinger />
+                    <CMHotDj />
+                </RecommendRight>
             </Content>
         </RecommendWrapper>
     )

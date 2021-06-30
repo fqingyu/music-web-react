@@ -1,8 +1,6 @@
 import React, { memo } from 'react';
 import { NavLink } from 'react-router-dom'
 
-import { getSizeImage } from '@/utils/format-utils';
-
 import { TopRankingWrapper } from './style';
 
 export default memo(function CMTopRanking(props) {

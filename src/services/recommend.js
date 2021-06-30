@@ -32,3 +32,12 @@ export function getTopList(id) {
         }
     })
 }
+
+export function getSettleSinger(limit) {
+    return request({
+        url: "/artist/list",
+        params: {
+            limit
+        }
+    })
+}

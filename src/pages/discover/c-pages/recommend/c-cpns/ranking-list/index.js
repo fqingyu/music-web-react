@@ -30,7 +30,7 @@ export default memo(function CMRecommendRanking() {
     return (
         <RankingWrapper>
             <CMThemeHeaderRecommend title="榜单" />
-            <div class="tops">
+            <div className="tops">
                 <CMTopRanking info={upRanking}/>
                 <CMTopRanking info={newRanking}/>
                 <CMTopRanking info={originalRanking}/>
