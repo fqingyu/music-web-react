@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useRef } from 'react'
+import React, { memo, useState, useEffect, useRef, useCallback } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { getSizeImage } from '@/utils/format-utils';
@@ -11,7 +11,9 @@ import { Slider } from 'antd';
 
 export default memo(function CMPAppPlayerBar() {
     // inner state
-    const [currentTime, setCurrentTime] = useState(0);
+    const [currentTimeMS, setCurrentTimeMS] = useState(0);
+    const [progress, setProgress] = useState(0);
+    const [isChanging, setIsChanging] = useState(false);
 
     // redux hook
     const { currentSong } = useSelector(state => ({
@@ -29,17 +31,34 @@ export default memo(function CMPAppPlayerBar() {
     const picUrl = (currentSong.al && getSizeImage(currentSong.al.picUrl)) || default_album;
     const singerName = (currentSong.ar && currentSong.ar[0].name) || "";
     const duration = currentSong.dt || 0;
-    const showCurrentTime = msToTime(currentTime);
-    const progress = currentTime / duration * 100;
+    const showCurrentTime = msToTime(currentTimeMS);
 
     const playMusic = () => {
         audioRef.current.src = getPlaySong(currentSong.id);
         audioRef.current.play();
     }
 
+    // audio ref用的时间是秒钟， 其他时间用的是毫秒
     const timeUpdate = (e) => {
-        setCurrentTime(e.target.currentTime * 1000);
+        if (!isChanging) {
+            setCurrentTimeMS(e.target.currentTime * 1000);
+            setProgress(currentTimeMS / duration * 100);
+        }
     }
+
+    const sliderChange = useCallback((value) => {
+        setIsChanging(true);
+        setProgress(value)
+        const currentTimeMS = value / 100 * duration;
+        setCurrentTimeMS(currentTimeMS);
+    }, [duration])
+
+    const sliderAfterChange = useCallback((value) => {
+        const currentTimeS = value / 100 * duration / 1000;
+        audioRef.current.currentTime = currentTimeS;
+        setCurrentTimeMS(currentTimeS * 1000);
+        setIsChanging(false);
+    }, [duration])
 
     return (
         <PlayerBarWrapper className="sprite_playbar">
@@ -61,7 +80,11 @@ export default memo(function CMPAppPlayerBar() {
                             <a href="#/" className="singer-name">{singerName}</a>
                         </div>
                         <div className="progress">
-                            <Slider defaultValue={30} tooltipVisible={false} value={progress}/>
+                            <Slider defaultValue={30}
+                                tooltipVisible={false}
+                                value={progress}
+                                onChange={sliderChange}
+                                onAfterChange={sliderAfterChange} />
                             <div className="time">
                                 <span className="now-time">{showCurrentTime}</span>
                                 <span className="divider">/</span>
@@ -83,7 +106,7 @@ export default memo(function CMPAppPlayerBar() {
                     </div>
                 </Operator>
             </div>
-            <audio ref={audioRef} onTimeUpdate={timeUpdate}/>
+            <audio ref={audioRef} onTimeUpdate={timeUpdate} />
         </PlayerBarWrapper>
     )
 })
