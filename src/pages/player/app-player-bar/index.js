@@ -14,6 +14,8 @@ export default memo(function CMPAppPlayerBar() {
     const [currentTimeMS, setCurrentTimeMS] = useState(0);
     const [progress, setProgress] = useState(0);
     const [isChanging, setIsChanging] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [bufferedPercent, setBufferedPercent] = useState(0);
 
     // redux hook
     const { currentSong } = useSelector(state => ({
@@ -24,8 +26,12 @@ export default memo(function CMPAppPlayerBar() {
     // other hooks
     const audioRef = useRef();
     useEffect(() => {
-        dispatch(getSongDetailAction(1854709891))
+        dispatch(getSongDetailAction(1843319489));
     }, [dispatch])
+    useEffect(() => {
+        audioRef.current.src = getPlaySong(currentSong.id);
+    }, [currentSong])
+    
 
     // ohter logics
     const picUrl = (currentSong.al && getSizeImage(currentSong.al.picUrl)) || default_album;
@@ -34,8 +40,8 @@ export default memo(function CMPAppPlayerBar() {
     const showCurrentTime = msToTime(currentTimeMS);
 
     const playMusic = () => {
-        audioRef.current.src = getPlaySong(currentSong.id);
-        audioRef.current.play();
+        isPlaying ? audioRef.current.pause() : audioRef.current.play();
+        setIsPlaying(!isPlaying);
     }
 
     // audio ref用的时间是秒钟， 其他时间用的是毫秒
@@ -43,6 +49,21 @@ export default memo(function CMPAppPlayerBar() {
         if (!isChanging) {
             setCurrentTimeMS(e.target.currentTime * 1000);
             setProgress(currentTimeMS / duration * 100);
+        }
+
+        // preload loding bar
+        if(audioRef.current.buffered) {
+            const buffer = audioRef.current.buffered;
+            if(bufferedPercent < 100) {
+                for (let i = 0; i < buffer.length; i++) {
+                    if(bufferedPercent < buffer.end(i) / (duration / 1000) * 100) {
+                        setBufferedPercent(buffer.end(i) / (duration / 1000) * 100)
+                    }
+                }
+            }
+            else {
+                setBufferedPercent(100);
+            }
         }
     }
 
@@ -63,12 +84,12 @@ export default memo(function CMPAppPlayerBar() {
     return (
         <PlayerBarWrapper className="sprite_playbar">
             <div className="content wrap-v2">
-                <Control>
+                <Control isPlaying={isPlaying}>
                     <button className="sprite_playbar prev"></button>
                     <button className="sprite_playbar play" onClick={e => playMusic()}></button>
                     <button className="sprite_playbar next"></button>
                 </Control>
-                <PlayInfo>
+                <PlayInfo bufferPercentage={bufferedPercent}>
                     <div className="image">
                         <a href="/#">
                             <img src={picUrl} alt="song-pic" />
@@ -106,7 +127,7 @@ export default memo(function CMPAppPlayerBar() {
                     </div>
                 </Operator>
             </div>
-            <audio ref={audioRef} onTimeUpdate={timeUpdate} />
+            <audio className="audio" ref={audioRef} onTimeUpdate={timeUpdate} />
         </PlayerBarWrapper>
     )
 })

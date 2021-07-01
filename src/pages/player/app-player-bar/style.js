@@ -46,7 +46,7 @@ export const Control = styled.div`
         background-position: 0 ${props => props.isPlaying ? "-165px" : "-204px"};
     }
     .play:hover {
-        background-position: -40px -204px;
+        background-position: ${props => props.isPlaying ? "-40px -165px" : "-40px -204px"};
     }
 
     .next {
@@ -89,11 +89,20 @@ export const PlayInfo = styled.div`
             .ant-slider-rail {
                 height: 9px;
                 background: url(${progress_bar}) right 0;
+                z-index: -2;
             }
             .ant-slider-track {
                 height: 9px;
                 background: url(${progress_bar}) left -66px;
             }
+
+            .ant-slider-step {
+                height: 9px;
+                background: url(${progress_bar}) right -30px;
+                width: ${props => props.bufferPercentage}%!important;
+                z-index: -1;
+            }
+
             .ant-slider-handle {
                 width: 22px;
                 height: 24px;

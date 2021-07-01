@@ -14,7 +14,7 @@ const changeHotRecommendAction = (res) => ({
 
 const changeNewAlbumAction = (res) => ({
     type: actionTypes.CHANGE_NEW_ALBUMS,
-    newAlbums: res.monthData.slice(0, NEW_ALBUM_LIMIT)
+    newAlbums: res.weekData.slice(0, NEW_ALBUM_LIMIT)
 })
 
 const changeUpRankingAction = (res) => ({
