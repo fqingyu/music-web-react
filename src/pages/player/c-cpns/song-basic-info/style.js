@@ -106,4 +106,45 @@ export const SongDetailWrapper = styled.div`
 			}
 		}
 	}
+
+	.lyric-content {
+		margin-top: 37px;
+		line-height: 23px;
+		font-size: 12px;
+		.hide-lyric {
+			display: ${props => props.moreLyric === true ? "" : "none"};
+		}
+		.expand {
+			margin-top: 5px;
+			width: 35px;
+			color: #0c73c2;
+			cursor: pointer;
+			.icon {
+				width: 11px;
+				height: 8px;
+				background-position: ${props => props.moreLyric === true ? "-45px -520px" : "-65px -520px"};
+				display: inline-block;
+			}
+		}
+
+		.expand:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.user-operation {
+		margin-top: 48px;
+		text-align: right;
+		line-height: 30px;
+		color: #666;
+		.report {
+			color: #999;
+		}
+		.contribute {
+			a {
+				color: #0c73c2;
+				text-decoration: underline;
+			}
+		}
+	}
 `

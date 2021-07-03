@@ -5,7 +5,8 @@ import * as actionTypes from './constants'
 const defaultState = Map({
     currentSong: {},
     showSong: {},
-    showSongComments: {}
+    showSongComments: {},
+    showSongLyric: {},
 })
 
 function reducer(state = defaultState, action) {
@@ -16,6 +17,8 @@ function reducer(state = defaultState, action) {
             return state.set("showSong", action.showSong)
         case actionTypes.CHANGE_SHOW_SONG_COMMENTS:
             return state.set("showSongComments", action.showSongComments)
+        case actionTypes.CHANGE_SHOW_SONG_LYRIC:
+            return state.set("showSongLyric", action.showSongLyric)
         default:
             return state
     }

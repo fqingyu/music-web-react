@@ -1,8 +1,9 @@
-import { getSongDetail, getSongComments } from '@/services/player';
+import { getSongDetail, getSongComments, getSongLyric } from '@/services/player';
+import { parseLyric } from '@/utils/parse-lyric';
 
 import * as actionTypes from './constants';
 
-const changeCurrentSong = (currentSong) =>({
+const changeCurrentSong = (currentSong) => ({
     type: actionTypes.CHANGE_CURRENT_SONG,
     currentSong
 })
@@ -15,6 +16,11 @@ const changeShowSong = (showSong) => ({
 const changeShowSongComments = (showSongComments) => ({
     type: actionTypes.CHANGE_SHOW_SONG_COMMENTS,
     showSongComments
+})
+
+const changeShowSongLyric = (showSongLyric) => ({
+    type: actionTypes.CHANGE_SHOW_SONG_LYRIC,
+    showSongLyric
 })
 
 export const getSongDetailAction = (ids) => {
@@ -32,6 +38,14 @@ export const getShowSongDetailAction = (ids) => {
         })
         getSongComments(ids).then((res) => {
             dispatch(changeShowSongComments(res))
+        })
+        getSongLyric(ids).then((res) => {
+            const lyric = parseLyric(res.lrc.lyric);
+            let translateLyric = {};
+            if(res.tlyric.lyric) {
+                translateLyric = parseLyric(res.tlyric.lyric)
+            }
+            dispatch(changeShowSongLyric({...res, lyric, translateLyric}))
         })
     }
 }

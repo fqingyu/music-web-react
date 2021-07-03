@@ -27,3 +27,12 @@ export function getSongComments(id, offset = null) {
         params: params
     })
 }
+
+export function getSongLyric(id) {
+    return request({
+        url:"/lyric",
+        params: {
+            id
+        }
+    })
+}

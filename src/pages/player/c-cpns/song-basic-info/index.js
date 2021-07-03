@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
@@ -10,10 +10,14 @@ import CMSongOperationBar from '@/components/song-operation-bar';
 
 export default memo(function CMSongBasicInfo() {
 
+    // inner state
+    const [moreLyric, setmoreLyric] = useState(false);
+
     // redux logics
-    const { showSong, showSongComments } = useSelector((state) => ({
+    const { showSong, showSongComments, showSongLyric } = useSelector((state) => ({
         showSong: state.getIn(["player", "showSong"]),
-        showSongComments: state.getIn(["player", "showSongComments"])
+        showSongComments: state.getIn(["player", "showSongComments"]),
+        showSongLyric: state.getIn(["player", "showSongLyric"])
     }), shallowEqual)
 
     // other logics
@@ -23,6 +27,28 @@ export default memo(function CMSongBasicInfo() {
     const artistId = (showSong.ar && showSong.ar[0].id) || null;
     const albumName = (showSong.al && showSong.al.name) || null;
     const albumId = (showSong.al && showSong.al.id) || null;
+
+    const lyric = showSongLyric.lyric, translateLyric = showSongLyric.translateLyric;
+    let wholeLyric = [];
+    let lyricFirst = [];
+    let lyricSecond = [];
+    if (lyric && lyric.length && translateLyric && translateLyric.length) {
+        wholeLyric.push(lyric[0].content);
+        wholeLyric.push(lyric[1].content);
+        for (let itr = 2; itr < lyric.length; itr++) {
+            wholeLyric.push(lyric[itr].content);
+            wholeLyric.push(translateLyric[itr - 2].content);
+        }
+        lyricFirst = wholeLyric.slice(0, 10);
+        lyricSecond = wholeLyric.slice(10);
+    }
+    else if (lyric && lyric.length) {
+        for (let itr = 0; itr < lyric.length; itr++) {
+            wholeLyric.push(lyric[itr].content);
+        }
+        lyricFirst = wholeLyric.slice(0, 10);
+        lyricSecond = wholeLyric.slice(10);
+    }
 
 
     return (
@@ -38,7 +64,7 @@ export default memo(function CMSongBasicInfo() {
                 </div>
             </SongCover>
             <div className="song-info">
-                <SongDetailWrapper>
+                <SongDetailWrapper moreLyric={moreLyric}>
                     <div className="title">
                         <i className="icon sprite_icon2" />
                         <em className="title-name">{showSong.name}</em>
@@ -70,6 +96,59 @@ export default memo(function CMSongBasicInfo() {
                         shareTitle="分享"
                         downloadTitle="下载"
                         commentTitle={`(${showSongComments.total})`} />
+                    <div className="lyric-content">
+                        {
+                            lyricFirst.map((item, index) => {
+                                return (
+                                    item === "" ? <br key={index}></br> :
+                                        <p key={index}>
+                                            {item}
+                                        </p>
+                                )
+                            })
+                        }
+                        <div className="hide-lyric">
+                            {
+                                lyricSecond.map((item, index) => {
+                                    return (
+                                        item === "" ? <br key={index}></br> :
+                                            <p key={index}>
+                                                {item}
+                                            </p>
+                                    )
+                                })
+                            }
+                        </div>
+                        <div className="expand" onClick={e => setmoreLyric(!moreLyric)}>
+                            {
+                                moreLyric ? "收起" : "展开"
+                            }
+                            <i className="icon sprite_icon2"></i>
+                        </div>
+                    </div>
+                    <div className="user-operation">
+                        <p>
+                            <NavLink to={`/lyric?id=${showSong.id}`} className="report">报错</NavLink>
+                        </p>
+                        <p>
+                            {
+                                showSongLyric.lyricUser ?
+                                    <span className="contribute">贡献歌词：
+                                        <a href="todo">
+                                            {showSongLyric.lyricUser.nickname}
+                                        </a>
+                                    </span> : null
+                            }
+                            {
+                                showSongLyric.transUser ?
+                                    <span className="contribute">&nbsp;&nbsp;&nbsp;&nbsp;贡献翻译：
+                                        <a href="todo">
+                                            {showSongLyric.transUser.nickname}
+                                        </a>
+                                    </span> : null
+                            }
+                        </p>
+                    </div>
                 </SongDetailWrapper>
             </div>
         </>
