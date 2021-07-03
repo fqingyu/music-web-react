@@ -12,6 +12,26 @@ export const OperationBarWrapper = styled.div`
       height: 31px;
       line-height: 31px;
       background-position: right -428px;
+      // hover & active for play button
+      &:hover {
+        background-position: right -510px;
+        .play {
+          background-position: 0 -469px;
+        }
+        i {
+          background-position: -28px -1622px!important;
+        }
+      }
+      &:active {
+        background-position: right -592px;
+        .play {
+          background-position: 0 -551px;
+        }
+        i {
+          background-position: -56px -1622px!important;
+        }
+      }
+
       .play {
         color: #fff;
         display: flex;
@@ -35,6 +55,12 @@ export const OperationBarWrapper = styled.div`
       padding-right: 0;
       background-position: 0 -1588px;
       text-indent: -9999px;
+      &:hover {
+        background-position: -40px -1588px;
+      }
+      &:active {
+        background-position: -80px -1588px;
+      }
     }
   }
   .item {
@@ -43,6 +69,9 @@ export const OperationBarWrapper = styled.div`
     margin-right: 6px;
     padding-right: 5px;
     background-position: right -1020px;
+    &:hover {
+      background-position: right -1106px;
+    }
     
     .icon {
       display: inline-block;

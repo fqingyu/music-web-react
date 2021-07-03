@@ -7,6 +7,8 @@ import { getShowSongDetailAction, cleanShowSongAction } from './store/actionCrea
 import CMDiscoverWrapper from '@/components/discover-wrapper';
 import { PlayerWrapper, PlayerLeft, PlayerRight } from './style';
 import CMSongBasicInfo from './c-cpns/song-basic-info';
+import CMRelatedSongList from './c-cpns/related-song-list';
+import CMRelatedSong from './c-cpns/related-song'
 
 export default memo(function CMPlayerSong(props) {
     // inner state
@@ -37,8 +39,8 @@ export default memo(function CMPlayerSong(props) {
                         <CMSongBasicInfo />
                     </PlayerLeft>
                     <PlayerRight>
-                        <h2>Songs</h2>
-                        <h2>相似歌曲</h2>
+                        <CMRelatedSongList />
+                        <CMRelatedSong />
                     </PlayerRight>
                 </div>
             </PlayerWrapper>

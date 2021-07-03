@@ -36,3 +36,21 @@ export function getSongLyric(id) {
         }
     })
 }
+
+export function getRelatedSongList(id) {
+    return request({
+        url: "/simi/playlist",
+        params: {
+            id
+        }
+    })
+}
+
+export function getRelatedSong(id) {
+    return request({
+        url: "/simi/song",
+        params: {
+            id
+        }
+    })
+}

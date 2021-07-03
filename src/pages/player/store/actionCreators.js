@@ -1,4 +1,4 @@
-import { getSongDetail, getSongComments, getSongLyric } from '@/services/player';
+import { getSongDetail, getSongComments, getSongLyric, getRelatedSongList, getRelatedSong } from '@/services/player';
 import { parseLyric } from '@/utils/parse-lyric';
 
 import * as actionTypes from './constants';
@@ -21,6 +21,16 @@ const changeShowSongComments = (showSongComments) => ({
 const changeShowSongLyric = (showSongLyric) => ({
     type: actionTypes.CHANGE_SHOW_SONG_LYRIC,
     showSongLyric
+})
+
+const changeRelatedSong = (relatedSong) => ({
+    type: actionTypes.CHANGE_RELATED_SONG,
+    relatedSong
+})
+
+const changeRelatedSongList = (relatedSongList) => ({
+    type: actionTypes.CHANGE_RELATED_SONG_LIST,
+    relatedSongList
 })
 
 export const getSongDetailAction = (ids) => {
@@ -46,6 +56,12 @@ export const getShowSongDetailAction = (ids) => {
                 translateLyric = parseLyric(res.tlyric.lyric)
             }
             dispatch(changeShowSongLyric({...res, lyric, translateLyric}))
+        })
+        getRelatedSong(ids).then((res) => {
+            dispatch(changeRelatedSong(res))
+        })
+        getRelatedSongList(ids).then((res) => {
+            dispatch(changeRelatedSongList(res))
         })
     }
 }

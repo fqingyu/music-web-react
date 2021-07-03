@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
@@ -33,11 +33,13 @@ export default memo(function CMSongBasicInfo() {
     let lyricFirst = [];
     let lyricSecond = [];
     if (lyric && lyric.length && translateLyric && translateLyric.length) {
-        wholeLyric.push(lyric[0].content);
-        wholeLyric.push(lyric[1].content);
-        for (let itr = 2; itr < lyric.length; itr++) {
-            wholeLyric.push(lyric[itr].content);
-            wholeLyric.push(translateLyric[itr - 2].content);
+        let indexTrans = 0;
+        for (let itr = 0; itr < lyric.length; itr++) {
+            while (indexTrans < translateLyric.length && translateLyric[indexTrans].time < lyric[itr].time) {
+                wholeLyric.push(translateLyric[indexTrans].content)
+                indexTrans += 1
+            }
+            wholeLyric.push(lyric[itr].content)
         }
         lyricFirst = wholeLyric.slice(0, 10);
         lyricSecond = wholeLyric.slice(10);
@@ -49,6 +51,12 @@ export default memo(function CMSongBasicInfo() {
         lyricFirst = wholeLyric.slice(0, 10);
         lyricSecond = wholeLyric.slice(10);
     }
+
+    useEffect(() => {
+        return () => {
+            setmoreLyric(false)
+        }
+    }, [showSong.id])
 
 
     return (
@@ -67,15 +75,18 @@ export default memo(function CMSongBasicInfo() {
                 <SongDetailWrapper moreLyric={moreLyric}>
                     <div className="title">
                         <i className="icon sprite_icon2" />
-                        <em className="title-name">{showSong.name}</em>
-                        {
-                            showSong.mv === 0 ? null :
-                                <NavLink className="mv-icon" to={`/mv?id=${showSong.mv}`}>
-                                    <i className="sprite_icon2"></i>
-                                </NavLink>
-                        }
+                        <div className="title-wrapper">
+                            <em className="title-name">{showSong.name}</em>
+                            {
+                                showSong.mv === 0 ? null :
+                                    <NavLink className="mv-icon" to={`/mv?id=${showSong.mv}`}>
+                                        <i className="sprite_icon2"></i>
+                                    </NavLink>
+                            }
+                            <div className="subtitle-name">{alia}</div>
+                        </div>
                     </div>
-                    <div className="subtitle-name">{alia}</div>
+
                     <p className="artist">
                         歌手：
                         <span title={artistName}>
@@ -119,12 +130,16 @@ export default memo(function CMSongBasicInfo() {
                                 })
                             }
                         </div>
-                        <div className="expand" onClick={e => setmoreLyric(!moreLyric)}>
-                            {
-                                moreLyric ? "收起" : "展开"
-                            }
-                            <i className="icon sprite_icon2"></i>
-                        </div>
+                        {
+                            lyricSecond ?
+                                <div className="expand" onClick={e => setmoreLyric(!moreLyric)}>
+                                    {
+                                        moreLyric ? "收起" : "展开"
+                                    }
+                                    <i className="icon sprite_icon2"></i>
+                                </div> :
+                                null
+                        }
                     </div>
                     <div className="user-operation">
                         <p>

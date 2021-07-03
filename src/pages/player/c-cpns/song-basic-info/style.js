@@ -41,40 +41,48 @@ export const SongCover = styled.div`
 
 export const SongDetailWrapper = styled.div`
 	.title {
-		display: flex;
-		height: 31.28px;
+		/* display: flex; */
+		/* height: 31.28px; */
 		.icon {
 			width: 54px;
 			height: 24px;
 			background-position: 0 -463px;
 			margin-right: 9px;
+			float: left;
 		}
-		.title-name {
-			margin-right: 14px;
-			height: 31px;
+		.title-wrapper {
+			margin-left: 64px;
+			position: relative;
+			top: -6px;
 			font-size: 24px;
-			color: #333;
-			vertical-align: top;
-			margin-top: -9px;
-			font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
-		}
-		.mv-icon {
-			cursor: pointer;
-			vertical-align: middle;
-			i {
-				display: inline-block;
-				width: 21px;
-				height: 18px;
-				background-position: 0 -18px;
-				margin-top: 3px
+			.title-name {
+				margin-right: 14px;
+				height: 31px;
+				font-size: 24px;
+				color: #333;
+				vertical-align: top;
+				margin-top: -9px;
+				font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+			}
+			.mv-icon {
+				cursor: pointer;
+				vertical-align: middle;
+				i {
+					display: inline-block;
+					width: 21px;
+					height: 18px;
+					background-position: 0 -18px;
+					margin-top: 3px
+				}
+			}
+			.subtitle-name {
+				margin: 1px 0 5px;
+				color: #bababa;
+				font-size: 14px;
 			}
 		}
 	}
-	.subtitle-name {
-		margin: 1px 0 5px 62px;
-		color: #bababa;
-		font-size: 14px;
-	}
+	
 
 	> p {
 		margin: 10px 0;

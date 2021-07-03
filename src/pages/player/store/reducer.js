@@ -7,6 +7,8 @@ const defaultState = Map({
     showSong: {},
     showSongComments: {},
     showSongLyric: {},
+    relatedSong: {},
+    relatedSongList: {}
 })
 
 function reducer(state = defaultState, action) {
@@ -20,7 +22,11 @@ function reducer(state = defaultState, action) {
         case actionTypes.CHANGE_SHOW_SONG_LYRIC:
             return state.set("showSongLyric", action.showSongLyric)
         case actionTypes.CLEAN_SHOW_SONG:
-            return state.set("showSong", {}).set("showSongComments", {}).set("showSongLyric", {})
+            return state.set("showSong", {}).set("showSongComments", {}).set("showSongLyric", {}).set("relatedSong", {}).set("relatedSongList", {})
+        case actionTypes.CHANGE_RELATED_SONG:
+            return state.set("relatedSong", action.relatedSong)
+        case actionTypes.CHANGE_RELATED_SONG_LIST:
+            return state.set("relatedSongList", action.relatedSongList)
         default:
             return state
     }
