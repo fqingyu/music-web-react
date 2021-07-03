@@ -8,3 +8,22 @@ export function getSongDetail(ids) {
         }
     })
 }
+
+export function getSongComments(id, offset = null) {
+    let params = {};
+    if(offset) {
+        params = {
+            id,
+            offset
+        }
+    }
+    else {
+        params = {
+            id
+        }
+    }
+    return request({
+        url: "/comment/music",
+        params: params
+    })
+}

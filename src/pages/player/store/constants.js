@@ -1,1 +1,3 @@
 export const CHANGE_CURRENT_SONG = "player/CHANGE_CURRENT_SONG";
+export const CHANGE_SHOW_SONG = "player/CHANGE_SHOW_SONG";
+export const CHANGE_SHOW_SONG_COMMENTS = "player/CHANGE_SHOW_SONG_COMMENTS";

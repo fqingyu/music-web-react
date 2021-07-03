@@ -1,4 +1,4 @@
-import { getSongDetail } from '@/services/player';
+import { getSongDetail, getSongComments } from '@/services/player';
 
 import * as actionTypes from './constants';
 
@@ -7,10 +7,31 @@ const changeCurrentSong = (currentSong) =>({
     currentSong
 })
 
+const changeShowSong = (showSong) => ({
+    type: actionTypes.CHANGE_SHOW_SONG,
+    showSong
+})
+
+const changeShowSongComments = (showSongComments) => ({
+    type: actionTypes.CHANGE_SHOW_SONG_COMMENTS,
+    showSongComments
+})
+
 export const getSongDetailAction = (ids) => {
     return dispatch => {
         getSongDetail(ids).then((res) => {
             dispatch(changeCurrentSong(res.songs[0]))
+        })
+    }
+}
+
+export const getShowSongDetailAction = (ids) => {
+    return dispatch => {
+        getSongDetail(ids).then((res) => {
+            dispatch(changeShowSong(res.songs[0]))
+        })
+        getSongComments(ids).then((res) => {
+            dispatch(changeShowSongComments(res))
         })
     }
 }
