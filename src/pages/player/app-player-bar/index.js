@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect, useRef, useCallback } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 import { getSizeImage } from '@/utils/format-utils';
 import { getSongDetailAction, getPlaySong } from '../store/actionCreators';
@@ -31,7 +32,7 @@ export default memo(function CMPAppPlayerBar() {
     useEffect(() => {
         audioRef.current.src = getPlaySong(currentSong.id);
     }, [currentSong])
-    
+
 
     // ohter logics
     const picUrl = (currentSong.al && getSizeImage(currentSong.al.picUrl)) || default_album;
@@ -39,10 +40,10 @@ export default memo(function CMPAppPlayerBar() {
     const duration = currentSong.dt || 0;
     const showCurrentTime = msToTime(currentTimeMS);
 
-    const playMusic = () => {
+    const playMusic = useCallback(() => {
         isPlaying ? audioRef.current.pause() : audioRef.current.play();
         setIsPlaying(!isPlaying);
-    }
+    }, [isPlaying])
 
     // audio ref用的时间是秒钟， 其他时间用的是毫秒
     const timeUpdate = (e) => {
@@ -52,11 +53,11 @@ export default memo(function CMPAppPlayerBar() {
         }
 
         // preload loding bar
-        if(audioRef.current.buffered) {
+        if (audioRef.current.buffered) {
             const buffer = audioRef.current.buffered;
-            if(bufferedPercent < 100) {
+            if (bufferedPercent < 100) {
                 for (let i = 0; i < buffer.length; i++) {
-                    if(bufferedPercent < buffer.end(i) / (duration / 1000) * 100) {
+                    if (bufferedPercent < buffer.end(i) / (duration / 1000) * 100) {
                         setBufferedPercent(buffer.end(i) / (duration / 1000) * 100)
                     }
                 }
@@ -79,7 +80,11 @@ export default memo(function CMPAppPlayerBar() {
         audioRef.current.currentTime = currentTimeS;
         setCurrentTimeMS(currentTimeS * 1000);
         setIsChanging(false);
-    }, [duration])
+
+        if (!isPlaying) {
+            playMusic()
+        }
+    }, [duration, isPlaying, playMusic])
 
     return (
         <PlayerBarWrapper className="sprite_playbar">
@@ -91,13 +96,15 @@ export default memo(function CMPAppPlayerBar() {
                 </Control>
                 <PlayInfo bufferPercentage={bufferedPercent}>
                     <div className="image">
-                        <a href="/#">
+                        <NavLink to={`/song?id=${currentSong.id}`}>
                             <img src={picUrl} alt="song-pic" />
-                        </a>
+                        </NavLink>
                     </div>
                     <div className="info">
                         <div className="song">
-                            <span className="song-name">{currentSong.name}</span>
+                            <NavLink className="song-name" to={`/song?id=${currentSong.id}`}>
+                                <span>{currentSong.name}</span>
+                            </NavLink>
                             <a href="#/" className="singer-name">{singerName}</a>
                         </div>
                         <div className="progress">
@@ -116,7 +123,7 @@ export default memo(function CMPAppPlayerBar() {
                 </PlayInfo>
                 <Operator>
                     <div className="left">
-                        <button title="收藏" className="sprite_in btn in" />
+                        <button title="画中画歌词" className="sprite_in btn in" />
                         <button title="收藏" className="sprite_playbar btn favor" />
                         <button className="sprite_playbar btn share" />
                     </div>

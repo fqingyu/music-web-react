@@ -75,10 +75,14 @@ export const PlayInfo = styled.div`
         position: relative;
         top: 8px;
         left: 8px;
-        .singer-name {
-        color: #a1a1a1;
-        margin-left: 10px;
+        .song-name {
+            color: #e8e8e8;
         }
+        .singer-name {
+            color: #a1a1a1;
+            margin-left: 10px;
+        }
+        text-decoration: #e8e8e8;
     }
     .progress {
         display: flex;
