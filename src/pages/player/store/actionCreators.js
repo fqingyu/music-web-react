@@ -53,3 +53,7 @@ export const getShowSongDetailAction = (ids) => {
 export function getPlaySong(id) {
     return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
 }
+
+export const cleanShowSongAction = () => ({
+    type: actionTypes.CLEAN_SHOW_SONG
+})

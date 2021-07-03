@@ -2,7 +2,7 @@ import React, { memo, useEffect } from 'react';
 import queryString from 'query-string';
 import { useDispatch } from 'react-redux';
 
-import { getShowSongDetailAction } from './store/actionCreators';
+import { getShowSongDetailAction, cleanShowSongAction } from './store/actionCreators';
 
 import CMDiscoverWrapper from '@/components/discover-wrapper';
 import { PlayerWrapper, PlayerLeft, PlayerRight } from './style';
@@ -23,6 +23,9 @@ export default memo(function CMPlayerSong(props) {
 
     useEffect(() => {
         dispatch(getShowSongDetailAction(id));
+        return () => {
+            dispatch(cleanShowSongAction())
+        }
     }, [dispatch, id])
 
     return (
