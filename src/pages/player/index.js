@@ -8,7 +8,8 @@ import CMDiscoverWrapper from '@/components/discover-wrapper';
 import { PlayerWrapper, PlayerLeft, PlayerRight } from './style';
 import CMSongBasicInfo from './c-cpns/song-basic-info';
 import CMRelatedSongList from './c-cpns/related-song-list';
-import CMRelatedSong from './c-cpns/related-song'
+import CMRelatedSong from './c-cpns/related-song';
+import CMDownloadIcons from './c-cpns/download-icons';
 
 export default memo(function CMPlayerSong(props) {
     // inner state
@@ -41,6 +42,7 @@ export default memo(function CMPlayerSong(props) {
                     <PlayerRight>
                         <CMRelatedSongList />
                         <CMRelatedSong />
+                        <CMDownloadIcons />
                     </PlayerRight>
                 </div>
             </PlayerWrapper>

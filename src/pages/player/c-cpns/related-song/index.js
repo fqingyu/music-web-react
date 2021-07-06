@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { RelatedSongWrapper } from './style';
-import CMThemeHeader from '@/components/theme-header-player'
+import CMThemeHeader from '@/components/theme-header-player';
 
 export default memo(function CMRelatedSong() {
 
