@@ -26,6 +26,8 @@ export default memo(function CMPAppPlayerBar() {
 
     // other hooks
     const audioRef = useRef();
+
+    // Initial test
     useEffect(() => {
         dispatch(getSongDetailAction(1843319489));
     }, [dispatch])

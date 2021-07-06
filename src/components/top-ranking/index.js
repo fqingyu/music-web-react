@@ -1,11 +1,21 @@
-import React, { memo } from 'react';
-import { NavLink } from 'react-router-dom'
+import React, { memo, useCallback } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { TopRankingWrapper } from './style';
+import { actionCreators } from '@/pages/player/store';
 
 export default memo(function CMTopRanking(props) {
     const { info } = props;
     const { tracks = [] } = info;
+
+    // redux hooks
+    const dispatch = useDispatch();
+
+    // other logics
+    const playMusic = useCallback((item) => {
+        dispatch(actionCreators.getSongDetailAction(item.id))
+    })
 
     return (
         <TopRankingWrapper>
@@ -33,7 +43,7 @@ export default memo(function CMTopRanking(props) {
                                 <div className="info">
                                     <NavLink to={`/song?id=${item.id}`} className="name text-nowrap">{item.name}</NavLink>
                                     <div className="operate">
-                                        <button className="btn sprite_02 play"></button>
+                                        <button onClick={e => playMusic(item)} className="btn sprite_02 play"></button>
                                         <button className="btn sprite_icon2 addto"></button>
                                         <button className="btn sprite_02 favor"></button>
                                     </div>

@@ -3,7 +3,10 @@ import { Map } from 'immutable';
 import * as actionTypes from './constants'
 
 const defaultState = Map({
+    playList:[],
+    currentSongIndex: 0,
     currentSong: {},
+    
     showSong: {},
     showSongComments: {},
     showSongLyric: {},
@@ -14,21 +17,25 @@ const defaultState = Map({
 function reducer(state = defaultState, action) {
     switch(action.type) {
         case actionTypes.CHANGE_CURRENT_SONG:
-            return state.set("currentSong", action.currentSong)
+            return state.set("currentSong", action.currentSong);
+        case actionTypes.CHANGE_PLAY_LIST:
+            return state.set("playList", action.playList);
+        case actionTypes.CHANGE_CURRENT_SONG_INDEX:
+            return state.set("currentSongIndex", action.index);
         case actionTypes.CHANGE_SHOW_SONG:
-            return state.set("showSong", action.showSong)
+            return state.set("showSong", action.showSong);
         case actionTypes.CHANGE_SHOW_SONG_COMMENTS:
-            return state.set("showSongComments", action.showSongComments)
+            return state.set("showSongComments", action.showSongComments);
         case actionTypes.CHANGE_SHOW_SONG_LYRIC:
-            return state.set("showSongLyric", action.showSongLyric)
+            return state.set("showSongLyric", action.showSongLyric);
         case actionTypes.CLEAN_SHOW_SONG:
-            return state.set("showSong", {}).set("showSongComments", {}).set("showSongLyric", {}).set("relatedSong", {}).set("relatedSongList", {})
+            return state.set("showSong", {}).set("showSongComments", {}).set("showSongLyric", {}).set("relatedSong", {}).set("relatedSongList", {});
         case actionTypes.CHANGE_RELATED_SONG:
-            return state.set("relatedSong", action.relatedSong)
+            return state.set("relatedSong", action.relatedSong);
         case actionTypes.CHANGE_RELATED_SONG_LIST:
-            return state.set("relatedSongList", action.relatedSongList)
+            return state.set("relatedSongList", action.relatedSongList);
         default:
-            return state
+            return state;
     }
 }
 
