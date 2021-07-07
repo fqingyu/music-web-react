@@ -7,7 +7,7 @@ import CMSongs from '@/pages/discover/c-pages/songs';
 import CMDjradio from '@/pages/discover/c-pages/djradio';
 import CMArtist from '@/pages/discover/c-pages/artist';
 import CMAlbum from '@/pages/discover/c-pages/album';
-import CMPlayerSong from '@/pages/player';
+import CMSongDetail from '@/pages/song-detail';
 
 import CMFriend from "@/pages/friend";
 import CMMy from "@/pages/my";
@@ -68,7 +68,7 @@ const routes = [
     },
     {
         path: "/song",
-        component: CMPlayerSong
+        component: CMSongDetail
     }
 
 ];

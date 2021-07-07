@@ -25,7 +25,9 @@ API地址: [点击这里](https://netease-cloud-music-api-chi-navy.vercel.app/ "
 - 部分暂未找到相关接口的数据统一放在services/local-data进行存储
 
 ### 具体功能实现 & 后续计划  
-待补充
+Bug需要修复：
+1. 播放加载时有闪烁问题？ 
+2. 播放器正在播放时点击同一个按钮如何重置当前歌曲？（网易云音乐效果）
 
 ### 界面和功能展示
 待补充

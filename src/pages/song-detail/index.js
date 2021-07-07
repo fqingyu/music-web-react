@@ -11,7 +11,7 @@ import CMRelatedSongList from './c-cpns/related-song-list';
 import CMRelatedSong from './c-cpns/related-song';
 import CMDownloadIcons from './c-cpns/download-icons';
 
-export default memo(function CMPlayerSong(props) {
+export default memo(function CMSongDetail(props) {
     // inner state
     const { id } = queryString.parse(props.location.search)
 

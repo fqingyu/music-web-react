@@ -15,9 +15,9 @@ export default memo(function CMSongBasicInfo() {
 
     // redux logics
     const { showSong, showSongComments, showSongLyric } = useSelector((state) => ({
-        showSong: state.getIn(["player", "showSong"]),
-        showSongComments: state.getIn(["player", "showSongComments"]),
-        showSongLyric: state.getIn(["player", "showSongLyric"])
+        showSong: state.getIn(["songDetail", "showSong"]),
+        showSongComments: state.getIn(["songDetail", "showSongComments"]),
+        showSongLyric: state.getIn(["songDetail", "showSongLyric"])
     }), shallowEqual)
 
     // other logics

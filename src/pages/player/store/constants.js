@@ -2,11 +2,4 @@ export const CHANGE_CURRENT_SONG = "player/CHANGE_CURRENT_SONG";
 export const CHANGE_PLAY_LIST = "player/CHANGE_PLAY_LIST";
 export const CHANGE_CURRENT_SONG_INDEX = "player/CHANGE_CURRENT_SONG_INDEX";
 
-
-// song details page
-export const CHANGE_SHOW_SONG = "player/CHANGE_SHOW_SONG";
-export const CHANGE_SHOW_SONG_COMMENTS = "player/CHANGE_SHOW_SONG_COMMENTS";
-export const CHANGE_SHOW_SONG_LYRIC = "player/CHANGE_SHOW_SONG_LYRIC";
-export const CLEAN_SHOW_SONG = "player/CLEAN_SHOW_SONG";
-export const CHANGE_RELATED_SONG_LIST = "player/CHANGE_RELATED_SONG_LIST";
-export const CHANGE_RELATED_SONG = "player/CHANGE_RELATED_SONG";
+export const CHANGE_IS_PLAYING = "player/CHANGE_IS_PLAYING";

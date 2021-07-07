@@ -5,7 +5,8 @@ import { NavLink } from 'react-router-dom';
 import { getSizeImage } from '@/utils/format-utils';
 import { getSongDetailAction, getPlaySong } from '../store/actionCreators';
 import default_album from '@/assets/img/default_album.jpg';
-import { msToTime } from '@/utils/format-utils'
+import { msToTime } from '@/utils/format-utils';
+import { changeIsPlayingAction } from '../store/actionCreators';
 
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
@@ -15,12 +16,12 @@ export default memo(function CMPAppPlayerBar() {
     const [currentTimeMS, setCurrentTimeMS] = useState(0);
     const [progress, setProgress] = useState(0);
     const [isChanging, setIsChanging] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(false);
     const [bufferedPercent, setBufferedPercent] = useState(0);
 
     // redux hook
-    const { currentSong } = useSelector(state => ({
-        currentSong: state.getIn(["player", "currentSong"])
+    const { currentSong, isPlaying } = useSelector(state => ({
+        currentSong: state.getIn(["player", "currentSong"]),
+        isPlaying: state.getIn(["player", "isPlaying"])
     }), shallowEqual);
     const dispatch = useDispatch();
 
@@ -28,11 +29,14 @@ export default memo(function CMPAppPlayerBar() {
     const audioRef = useRef();
 
     // Initial test
-    useEffect(() => {
-        dispatch(getSongDetailAction(1843319489));
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getSongDetailAction(1843319489));
+    // }, [dispatch])
     useEffect(() => {
         audioRef.current.src = getPlaySong(currentSong.id);
+        if(currentSong.id) {
+            audioRef.current.play();
+        }
     }, [currentSong])
 
 
@@ -44,8 +48,8 @@ export default memo(function CMPAppPlayerBar() {
 
     const playMusic = useCallback(() => {
         isPlaying ? audioRef.current.pause() : audioRef.current.play();
-        setIsPlaying(!isPlaying);
-    }, [isPlaying])
+        dispatch(changeIsPlayingAction(!isPlaying))
+    }, [dispatch, isPlaying])
 
     // audio ref用的时间是秒钟， 其他时间用的是毫秒
     const timeUpdate = (e) => {
@@ -68,6 +72,7 @@ export default memo(function CMPAppPlayerBar() {
                 setBufferedPercent(100);
             }
         }
+
     }
 
     const sliderChange = useCallback((value) => {
@@ -82,10 +87,6 @@ export default memo(function CMPAppPlayerBar() {
         audioRef.current.currentTime = currentTimeS;
         setCurrentTimeMS(currentTimeS * 1000);
         setIsChanging(false);
-
-        if (!isPlaying) {
-            playMusic()
-        }
     }, [duration, isPlaying, playMusic])
 
     return (

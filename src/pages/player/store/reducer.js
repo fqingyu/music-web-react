@@ -6,12 +6,8 @@ const defaultState = Map({
     playList:[],
     currentSongIndex: 0,
     currentSong: {},
-    
-    showSong: {},
-    showSongComments: {},
-    showSongLyric: {},
-    relatedSong: {},
-    relatedSongList: {}
+
+    isPlaying: false
 })
 
 function reducer(state = defaultState, action) {
@@ -22,18 +18,8 @@ function reducer(state = defaultState, action) {
             return state.set("playList", action.playList);
         case actionTypes.CHANGE_CURRENT_SONG_INDEX:
             return state.set("currentSongIndex", action.index);
-        case actionTypes.CHANGE_SHOW_SONG:
-            return state.set("showSong", action.showSong);
-        case actionTypes.CHANGE_SHOW_SONG_COMMENTS:
-            return state.set("showSongComments", action.showSongComments);
-        case actionTypes.CHANGE_SHOW_SONG_LYRIC:
-            return state.set("showSongLyric", action.showSongLyric);
-        case actionTypes.CLEAN_SHOW_SONG:
-            return state.set("showSong", {}).set("showSongComments", {}).set("showSongLyric", {}).set("relatedSong", {}).set("relatedSongList", {});
-        case actionTypes.CHANGE_RELATED_SONG:
-            return state.set("relatedSong", action.relatedSong);
-        case actionTypes.CHANGE_RELATED_SONG_LIST:
-            return state.set("relatedSongList", action.relatedSongList);
+        case actionTypes.CHANGE_IS_PLAYING:
+            return state.set("isPlaying", action.isPlaying)
         default:
             return state;
     }

@@ -14,8 +14,10 @@ export default memo(function CMTopRanking(props) {
 
     // other logics
     const playMusic = useCallback((item) => {
+        dispatch(actionCreators.changeIsPlayingAction(false));
         dispatch(actionCreators.getSongDetailAction(item.id))
-    })
+        dispatch(actionCreators.changeIsPlayingAction(true));
+    }, [dispatch])
 
     return (
         <TopRankingWrapper>

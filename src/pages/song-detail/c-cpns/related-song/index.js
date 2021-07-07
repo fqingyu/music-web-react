@@ -9,7 +9,7 @@ export default memo(function CMRelatedSong() {
 
     // redux hooks
     const { relatedSong } = useSelector(state => ({
-        relatedSong: state.getIn(["player", "relatedSong"])
+        relatedSong: state.getIn(["songDetail", "relatedSong"])
     }))
 
     // other logics

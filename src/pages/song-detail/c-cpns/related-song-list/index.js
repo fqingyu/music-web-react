@@ -10,7 +10,7 @@ import CMThemeHeader from '@/components/theme-header-player'
 export default memo(function CMRelatedSongList() {
 
     const { relatedSongList } = useSelector(state => ({
-        relatedSongList: state.getIn(["player", "relatedSongList"])
+        relatedSongList: state.getIn(["songDetail", "relatedSongList"])
     }))
 
     const relatedSongListMap = (relatedSongList && relatedSongList.playlists) || [];
