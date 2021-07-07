@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import { TopRankingWrapper } from './style';
 import { actionCreators } from '@/pages/player/store';
@@ -11,13 +11,24 @@ export default memo(function CMTopRanking(props) {
 
     // redux hooks
     const dispatch = useDispatch();
+    const { currentSong } = useSelector(state => ({
+        currentSong: state.getIn(["player", "currentSong"])
+    }), shallowEqual);
 
     // other logics
     const playMusic = useCallback((item) => {
-        dispatch(actionCreators.changeIsPlayingAction(false));
-        dispatch(actionCreators.getSongDetailAction(item.id))
-        dispatch(actionCreators.changeIsPlayingAction(true));
-    }, [dispatch])
+        if(currentSong && currentSong.id !== item.id) {
+            dispatch(actionCreators.getSongDetailAction(item.id))
+            dispatch(actionCreators.changeIsPlayingAction(true));
+        }
+        else if(currentSong && currentSong.id === item.id) {
+            dispatch(actionCreators.changeCurrentTimeMSAction(0));
+            const audioDom = document.querySelector('.audio');
+            audioDom.currentTime = 0;
+            audioDom.play();
+            dispatch(actionCreators.changeIsPlayingAction(true));
+        }
+    }, [dispatch, currentSong])
 
     return (
         <TopRankingWrapper>

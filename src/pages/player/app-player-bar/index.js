@@ -3,25 +3,24 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { getSizeImage } from '@/utils/format-utils';
-import { getSongDetailAction, getPlaySong } from '../store/actionCreators';
 import default_album from '@/assets/img/default_album.jpg';
 import { msToTime } from '@/utils/format-utils';
-import { changeIsPlayingAction } from '../store/actionCreators';
+import { getPlaySong, changePROGRESSAction, changeBufferedPercentAction, changeIsPlayingAction, changeCurrentTimeMSAction } from '../store/actionCreators';
 
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
 
 export default memo(function CMPAppPlayerBar() {
     // inner state
-    const [currentTimeMS, setCurrentTimeMS] = useState(0);
-    const [progress, setProgress] = useState(0);
     const [isChanging, setIsChanging] = useState(false);
-    const [bufferedPercent, setBufferedPercent] = useState(0);
 
     // redux hook
-    const { currentSong, isPlaying } = useSelector(state => ({
+    const { currentSong, isPlaying, progress, bufferedPercent, currentTimeMS } = useSelector(state => ({
         currentSong: state.getIn(["player", "currentSong"]),
-        isPlaying: state.getIn(["player", "isPlaying"])
+        isPlaying: state.getIn(["player", "isPlaying"]),
+        progress: state.getIn(["player", "progress"]),
+        bufferedPercent: state.getIn(["player", "bufferedPercent"]),
+        currentTimeMS: state.getIn(["player", "currentTimeMS"])
     }), shallowEqual);
     const dispatch = useDispatch();
 
@@ -34,7 +33,7 @@ export default memo(function CMPAppPlayerBar() {
     // }, [dispatch])
     useEffect(() => {
         audioRef.current.src = getPlaySong(currentSong.id);
-        if(currentSong.id) {
+        if (currentSong.id) {
             audioRef.current.play();
         }
     }, [currentSong])
@@ -47,15 +46,17 @@ export default memo(function CMPAppPlayerBar() {
     const showCurrentTime = msToTime(currentTimeMS);
 
     const playMusic = useCallback(() => {
-        isPlaying ? audioRef.current.pause() : audioRef.current.play();
-        dispatch(changeIsPlayingAction(!isPlaying))
-    }, [dispatch, isPlaying])
+        if (JSON.stringify(currentSong) !== '{}') {
+            isPlaying ? audioRef.current.pause() : audioRef.current.play();
+            dispatch(changeIsPlayingAction(!isPlaying))
+        }
+    }, [dispatch, isPlaying, currentSong])
 
     // audio ref用的时间是秒钟， 其他时间用的是毫秒
     const timeUpdate = (e) => {
         if (!isChanging) {
-            setCurrentTimeMS(e.target.currentTime * 1000);
-            setProgress(currentTimeMS / duration * 100);
+            dispatch(changeCurrentTimeMSAction(e.target.currentTime * 1000));
+            dispatch(changePROGRESSAction(currentTimeMS / duration * 100));
         }
 
         // preload loding bar
@@ -64,30 +65,29 @@ export default memo(function CMPAppPlayerBar() {
             if (bufferedPercent < 100) {
                 for (let i = 0; i < buffer.length; i++) {
                     if (bufferedPercent < buffer.end(i) / (duration / 1000) * 100) {
-                        setBufferedPercent(buffer.end(i) / (duration / 1000) * 100)
+                        dispatch(changeBufferedPercentAction(buffer.end(i) / (duration / 1000) * 100))
                     }
                 }
             }
             else {
-                setBufferedPercent(100);
+                dispatch(changeBufferedPercentAction(100));
             }
         }
-
     }
 
     const sliderChange = useCallback((value) => {
         setIsChanging(true);
-        setProgress(value)
+        dispatch(changePROGRESSAction(value));
         const currentTimeMS = value / 100 * duration;
-        setCurrentTimeMS(currentTimeMS);
-    }, [duration])
+        dispatch(changeCurrentTimeMSAction(currentTimeMS));
+    }, [duration, dispatch])
 
     const sliderAfterChange = useCallback((value) => {
         const currentTimeS = value / 100 * duration / 1000;
         audioRef.current.currentTime = currentTimeS;
-        setCurrentTimeMS(currentTimeS * 1000);
+        dispatch(changeCurrentTimeMSAction(currentTimeS * 1000));
         setIsChanging(false);
-    }, [duration, isPlaying, playMusic])
+    }, [duration, dispatch])
 
     return (
         <PlayerBarWrapper className="sprite_playbar">
