@@ -106,7 +106,8 @@ export default memo(function CMSongBasicInfo() {
                     <CMSongOperationBar favorTitle="收藏"
                         shareTitle="分享"
                         downloadTitle="下载"
-                        commentTitle={`(${showSongComments.total ? showSongComments.total : 0})`} />
+                        commentTitle={`(${showSongComments.total ? showSongComments.total : 0})`} 
+                        ids={showSong.id}/>
                     <div className="lyric-content">
                         {
                             lyricFirst.map((item, index) => {
