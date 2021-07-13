@@ -213,5 +213,10 @@ export const Operator = styled.div`
         .playlist:hover {
             background-position: -42px -98px;
         }
+
+        .songs-count {
+            padding-left: 10px;
+            color: #666;
+        }
     }
 `

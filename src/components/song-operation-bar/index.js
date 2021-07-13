@@ -18,12 +18,10 @@ export default memo(function CMSongOperationBar(props) {
   const playMusic = useCallback((e) => {
     e.preventDefault();
     if (currentSong && currentSong.id !== ids) {
-      console.log(1)
       dispatch(actionCreators.getSongDetailAction(ids))
       dispatch(actionCreators.changeIsPlayingAction(true));
     }
     else if (currentSong && currentSong.id === ids) {
-      console.log(2)
       dispatch(actionCreators.changeCurrentTimeMSAction(0));
       const audioDom = document.querySelector('.audio');
       audioDom.currentTime = 0;

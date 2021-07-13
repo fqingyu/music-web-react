@@ -18,12 +18,10 @@ export default memo(function CMTopRanking(props) {
     // other logics
     const playMusic = useCallback((item) => {
         if(currentSong && currentSong.id !== item.id) {
-            console.log(1)
             dispatch(actionCreators.getSongDetailAction(item.id))
             dispatch(actionCreators.changeIsPlayingAction(true));
         }
         else if(currentSong && currentSong.id === item.id) {
-            console.log(2)
             dispatch(actionCreators.changeCurrentTimeMSAction(0));
             const audioDom = document.querySelector('.audio');
             audioDom.currentTime = 0;

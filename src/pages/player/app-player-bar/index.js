@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { getSizeImage } from '@/utils/format-utils';
 import default_album from '@/assets/img/default_album.jpg';
 import { msToTime } from '@/utils/format-utils';
-import { getPlaySong, changePROGRESSAction, changeBufferedPercentAction, changeIsPlayingAction, changeCurrentTimeMSAction } from '../store/actionCreators';
+import { getPlaySong, changeSequenceAction, changeCurrentSong, changePROGRESSAction, changeBufferedPercentAction, changeIsPlayingAction, changeCurrentTimeMSAction } from '../store/actionCreators';
 
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
@@ -15,8 +15,10 @@ export default memo(function CMPAppPlayerBar() {
     const [isChanging, setIsChanging] = useState(false);
 
     // redux hook
-    const { currentSong, isPlaying, progress, bufferedPercent, currentTimeMS } = useSelector(state => ({
+    const { currentSong, playList, sequence, isPlaying, progress, bufferedPercent, currentTimeMS } = useSelector(state => ({
         currentSong: state.getIn(["player", "currentSong"]),
+        playList: state.getIn(["player", "playList"]),
+        sequence: state.getIn(["player", "sequence"]),
         isPlaying: state.getIn(["player", "isPlaying"]),
         progress: state.getIn(["player", "progress"]),
         bufferedPercent: state.getIn(["player", "bufferedPercent"]),
@@ -35,6 +37,9 @@ export default memo(function CMPAppPlayerBar() {
         audioRef.current.src = getPlaySong(currentSong.id);
         if (currentSong.id) {
             audioRef.current.play();
+            dispatch(changeIsPlayingAction(true));
+            dispatch(changeCurrentTimeMSAction(0));
+            dispatch(changePROGRESSAction(0));
         }
     }, [currentSong])
 
@@ -74,6 +79,17 @@ export default memo(function CMPAppPlayerBar() {
             }
         }
     }
+    const changeMusic = useCallback((tag) => {
+        dispatch(changeCurrentSong(tag));
+    })
+
+    const changeSequence = useCallback(() => {
+        let currentSequence = sequence + 1;
+        if(currentSequence > 2) {
+            currentSequence = 0;
+        }
+        dispatch(changeSequenceAction(currentSequence));
+    }, [dispatch, sequence])
 
     const sliderChange = useCallback((value) => {
         setIsChanging(true);
@@ -93,9 +109,9 @@ export default memo(function CMPAppPlayerBar() {
         <PlayerBarWrapper className="sprite_playbar">
             <div className="content wrap-v2">
                 <Control isPlaying={isPlaying}>
-                    <button className="sprite_playbar prev"></button>
+                    <button className="sprite_playbar prev" onClick={e => changeMusic(-1)}></button>
                     <button className="sprite_playbar play" onClick={e => playMusic()}></button>
-                    <button className="sprite_playbar next"></button>
+                    <button className="sprite_playbar next" onClick={e => changeMusic(1)}></button>
                 </Control>
                 <PlayInfo bufferPercentage={bufferedPercent}>
                     <div className="image">
@@ -124,7 +140,7 @@ export default memo(function CMPAppPlayerBar() {
                         </div>
                     </div>
                 </PlayInfo>
-                <Operator>
+                <Operator sequence={sequence}>
                     <div className="left">
                         <button title="画中画歌词" className="sprite_in btn in" />
                         <button title="收藏" className="sprite_playbar btn favor" />
@@ -132,8 +148,10 @@ export default memo(function CMPAppPlayerBar() {
                     </div>
                     <div className="right sprite_playbar">
                         <button className="sprite_playbar btn volume" />
-                        <button className="sprite_playbar btn loop" />
-                        <button className="sprite_playbar btn playlist"></button>
+                        <button className="sprite_playbar btn loop" onClick={e => changeSequence()} />
+                        <button className="sprite_playbar btn playlist">
+                            <span className="songs-count">{playList.length}</span>
+                        </button>
                     </div>
                 </Operator>
             </div>
