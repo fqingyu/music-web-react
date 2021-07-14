@@ -35,7 +35,6 @@ export const changeCurrentIndexAndSong = (tag) => {
                     randomIndex = getRandom(playList.length);
                 }
                 currentSongIndex = randomIndex;
-                console.log(currentSongIndex);
                 break;
             default: // 顺序播放
                 currentSongIndex += tag;

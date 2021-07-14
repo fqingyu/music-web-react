@@ -94,6 +94,7 @@ export default memo(function CMPAppPlayerBar() {
         }
         else {
             dispatch(changeCurrentIndexAndSong(1))
+            audioRef.current.play();
         }
         dispatch(changeCurrentTimeMSAction(0));
         dispatch(changePROGRESSAction(0));
