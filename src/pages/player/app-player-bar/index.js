@@ -93,13 +93,18 @@ export default memo(function CMPAppPlayerBar() {
             audioRef.current.play();
         }
         else {
-            dispatch(changeCurrentIndexAndSong(1))
-            audioRef.current.play();
+            if (playList.length >= 2) {
+                dispatch(changeCurrentIndexAndSong(1))
+                dispatch(changeCurrentTimeMSAction(0));
+                dispatch(changePROGRESSAction(0));
+                dispatch(changeBufferedPercentAction(0));
+            }
+            else {
+                audioRef.current.curentTime = 0;
+                audioRef.current.play();
+            }
         }
-        dispatch(changeCurrentTimeMSAction(0));
-        dispatch(changePROGRESSAction(0));
-        dispatch(changeBufferedPercentAction(0));
-    }, [dispatch, sequence])
+    }, [dispatch, sequence, playList.length])
 
     const changeSequence = useCallback(() => {
         let currentSequence = sequence + 1;
