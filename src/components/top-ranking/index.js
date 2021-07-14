@@ -22,7 +22,7 @@ export default memo(function CMTopRanking(props) {
             dispatch(actionCreators.changeIsPlayingAction(true));
         }
         else if(currentSong && currentSong.id === item.id) {
-            dispatch(actionCreators.changeCurrentTimeMSAction(0));
+            // dispatch(actionCreators.changeCurrentTimeMSAction(0));
             const audioDom = document.querySelector('.audio');
             audioDom.currentTime = 0;
             audioDom.play();

@@ -5,7 +5,16 @@ import { NavLink } from 'react-router-dom';
 import { getSizeImage } from '@/utils/format-utils';
 import default_album from '@/assets/img/default_album.jpg';
 import { msToTime } from '@/utils/format-utils';
-import { getPlaySong, changeSequenceAction, changeCurrentIndexAndSong, changePROGRESSAction, changeBufferedPercentAction, changeIsPlayingAction, changeCurrentTimeMSAction } from '../store/actionCreators';
+import { 
+    getPlaySong, 
+    changeSequenceAction, 
+    changeCurrentLyricIndexAction, 
+    changeCurrentIndexAndSong, 
+    changePROGRESSAction, 
+    changeBufferedPercentAction, 
+    changeIsPlayingAction, 
+    changeCurrentTimeMSAction 
+} from '../store/actionCreators';
 
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
@@ -15,10 +24,22 @@ export default memo(function CMPAppPlayerBar() {
     const [isChanging, setIsChanging] = useState(false);
 
     // redux hook
-    const { currentSong, playList, sequence, isPlaying, progress, bufferedPercent, currentTimeMS } = useSelector(state => ({
+    const { 
+        currentSong, 
+        playList, 
+        sequence, 
+        lyric, 
+        currentLyricIndex, 
+        isPlaying, 
+        progress, 
+        bufferedPercent, 
+        currentTimeMS 
+    } = useSelector(state => ({
         currentSong: state.getIn(["player", "currentSong"]),
         playList: state.getIn(["player", "playList"]),
         sequence: state.getIn(["player", "sequence"]),
+        lyric: state.getIn(["player", "lyric"]),
+        currentLyricIndex: state.getIn(["player", "currentLyricIndex"]),
         isPlaying: state.getIn(["player", "isPlaying"]),
         progress: state.getIn(["player", "progress"]),
         bufferedPercent: state.getIn(["player", "bufferedPercent"]),
@@ -63,9 +84,14 @@ export default memo(function CMPAppPlayerBar() {
 
     // audio ref用的时间是秒钟， 其他时间用的是毫秒
     const timeUpdate = (e) => {
+        const currentTime = e.target.currentTime;
         if (!isChanging) {
-            dispatch(changeCurrentTimeMSAction(e.target.currentTime * 1000));
-            dispatch(changePROGRESSAction(currentTimeMS / duration * 100));
+            if(currentTimeMS !== (e.target.currentTime * 1000).toFixed(0)) {
+                dispatch(changeCurrentTimeMSAction((e.target.currentTime * 1000).toFixed(0)));
+            }
+            if(progress !== (currentTimeMS / duration * 100).toFixed(0)) {
+                dispatch(changePROGRESSAction((currentTimeMS / duration * 100).toFixed(0)));
+            }
         }
 
         // preload loding bar
@@ -73,14 +99,30 @@ export default memo(function CMPAppPlayerBar() {
             const buffer = audioRef.current.buffered;
             if (bufferedPercent < 100) {
                 for (let i = 0; i < buffer.length; i++) {
-                    if (bufferedPercent < buffer.end(i) / (duration / 1000) * 100) {
-                        dispatch(changeBufferedPercentAction(buffer.end(i) / (duration / 1000) * 100))
+                    const maxBuffered = (buffer.end(i) / (duration / 1000) * 100).toFixed(0);
+                    if (bufferedPercent < maxBuffered) {
+                        dispatch(changeBufferedPercentAction(maxBuffered))
                     }
                 }
             }
             else {
-                dispatch(changeBufferedPercentAction(100));
+                if(bufferedPercent !== 100) {
+                    dispatch(changeBufferedPercentAction(100));
+                }
             }
+        }
+
+        // 获取当前的歌词
+        let i = 0;
+        for (; i < lyric.length; i++) {
+            let lyricItem = lyric[i];
+            if(currentTime * 1000 < lyricItem.time) {
+                break
+            }
+        }
+        if(currentLyricIndex !== i -1) {
+            dispatch(changeCurrentLyricIndexAction(i-1));
+            console.log(lyric[i-1]);
         }
     }
     const changeMusic = useCallback((tag) => {
