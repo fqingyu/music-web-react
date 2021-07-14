@@ -11,9 +11,6 @@ const defaultState = Map({
     currentLyricIndex: 0,
 
     isPlaying: false,
-    progress: 0,
-    bufferedPercent: 0,
-    currentTimeMS: 0
 })
 
 function reducer(state = defaultState, action) {
@@ -35,12 +32,6 @@ function reducer(state = defaultState, action) {
         // 进度条相关数据
         case actionTypes.CHANGE_IS_PLAYING:
             return state.set("isPlaying", action.isPlaying);
-        case actionTypes.CHANGE_PROGRESS:
-            return state.set("progress", action.progress);
-        case actionTypes.CHANGE_BUFFERED_PERCENT:
-            return state.set("bufferedPercent", action.bufferedPercent);
-        case actionTypes.CHANGE_CURRENT_TIME_MS:
-            return state.set("currentTimeMS", action.currentTimeMS);
 
         default:
             return state;

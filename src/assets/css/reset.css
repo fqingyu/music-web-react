@@ -148,6 +148,14 @@ button {
     background: url(../img/sprite_in.png) no-repeat 0 0;
 }
 
+.sprite_footer_01 {
+    background: url(../img/sprite_footer_01.png) no-repeat;
+}
+
+.sprite_footer_02 {
+    background: url(../img/sprite_footer_02.png) no-repeat;
+}
+
 .image_cover {
     position: absolute;
     left: 0;

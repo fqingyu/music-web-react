@@ -5,15 +5,12 @@ import { NavLink } from 'react-router-dom';
 import { getSizeImage } from '@/utils/format-utils';
 import default_album from '@/assets/img/default_album.jpg';
 import { msToTime } from '@/utils/format-utils';
-import { 
-    getPlaySong, 
-    changeSequenceAction, 
-    changeCurrentLyricIndexAction, 
+import {
+    getPlaySong,
+    changeSequenceAction,
+    changeCurrentLyricIndexAction,
     changeCurrentIndexAndSong, 
-    changePROGRESSAction, 
-    changeBufferedPercentAction, 
-    changeIsPlayingAction, 
-    changeCurrentTimeMSAction 
+    changeIsPlayingAction,
 } from '../store/actionCreators';
 
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
@@ -22,18 +19,18 @@ import { Slider } from 'antd';
 export default memo(function CMPAppPlayerBar() {
     // inner state
     const [isChanging, setIsChanging] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [bufferedPercent, setBufferedPercent] = useState(0);
+    const [currentTimeMS, setCurrentTimeMS] = useState(0);
 
     // redux hook
-    const { 
-        currentSong, 
-        playList, 
-        sequence, 
-        lyric, 
-        currentLyricIndex, 
-        isPlaying, 
-        progress, 
-        bufferedPercent, 
-        currentTimeMS 
+    const {
+        currentSong,
+        playList,
+        sequence,
+        lyric,
+        currentLyricIndex,
+        isPlaying,
     } = useSelector(state => ({
         currentSong: state.getIn(["player", "currentSong"]),
         playList: state.getIn(["player", "playList"]),
@@ -41,19 +38,12 @@ export default memo(function CMPAppPlayerBar() {
         lyric: state.getIn(["player", "lyric"]),
         currentLyricIndex: state.getIn(["player", "currentLyricIndex"]),
         isPlaying: state.getIn(["player", "isPlaying"]),
-        progress: state.getIn(["player", "progress"]),
-        bufferedPercent: state.getIn(["player", "bufferedPercent"]),
-        currentTimeMS: state.getIn(["player", "currentTimeMS"])
     }), shallowEqual);
     const dispatch = useDispatch();
 
     // other hooks
     const audioRef = useRef();
 
-    // Initial test
-    // useEffect(() => {
-    //     dispatch(getSongDetailAction(1843319489));
-    // }, [dispatch])
     useEffect(() => {
         audioRef.current.src = getPlaySong(currentSong.id);
         if (currentSong.id) {
@@ -62,9 +52,9 @@ export default memo(function CMPAppPlayerBar() {
             }).catch(err => {
                 dispatch(changeIsPlayingAction(false));
             })
-            dispatch(changeCurrentTimeMSAction(0));
-            dispatch(changePROGRESSAction(0));
-            dispatch(changeBufferedPercentAction(0));
+            setCurrentTimeMS(0);
+            setProgress(0);
+            setBufferedPercent(0);
         }
     }, [currentSong, dispatch])
 
@@ -83,14 +73,14 @@ export default memo(function CMPAppPlayerBar() {
     }, [dispatch, isPlaying, currentSong])
 
     // audio ref用的时间是秒钟， 其他时间用的是毫秒
-    const timeUpdate = (e) => {
+    const timeUpdate = useCallback((e) => {
         const currentTime = e.target.currentTime;
         if (!isChanging) {
-            if(currentTimeMS !== (e.target.currentTime * 1000).toFixed(0)) {
-                dispatch(changeCurrentTimeMSAction((e.target.currentTime * 1000).toFixed(0)));
+            if (currentTimeMS !== Math.round(e.target.currentTime * 1000)) {
+                setCurrentTimeMS(Math.round(e.target.currentTime * 1000));
             }
-            if(progress !== (currentTimeMS / duration * 100).toFixed(0)) {
-                dispatch(changePROGRESSAction((currentTimeMS / duration * 100).toFixed(0)));
+            if (progress !== Math.round(currentTimeMS / duration * 100)) {
+                setProgress(Math.round(currentTimeMS / duration * 100));
             }
         }
 
@@ -99,15 +89,15 @@ export default memo(function CMPAppPlayerBar() {
             const buffer = audioRef.current.buffered;
             if (bufferedPercent < 100) {
                 for (let i = 0; i < buffer.length; i++) {
-                    const maxBuffered = (buffer.end(i) / (duration / 1000) * 100).toFixed(0);
+                    const maxBuffered = Math.round(buffer.end(i) / (duration / 1000) * 100);
                     if (bufferedPercent < maxBuffered) {
-                        dispatch(changeBufferedPercentAction(maxBuffered))
+                        setBufferedPercent(maxBuffered);
                     }
                 }
             }
             else {
-                if(bufferedPercent !== 100) {
-                    dispatch(changeBufferedPercentAction(100));
+                if (bufferedPercent !== 100) {
+                    setBufferedPercent(100);
                 }
             }
         }
@@ -116,15 +106,15 @@ export default memo(function CMPAppPlayerBar() {
         let i = 0;
         for (; i < lyric.length; i++) {
             let lyricItem = lyric[i];
-            if(currentTime * 1000 < lyricItem.time) {
+            if (currentTime * 1000 < lyricItem.time) {
                 break
             }
         }
-        if(currentLyricIndex !== i -1) {
-            dispatch(changeCurrentLyricIndexAction(i-1));
-            console.log(lyric[i-1]);
+        if (currentLyricIndex !== i - 1) {
+            dispatch(changeCurrentLyricIndexAction(i - 1));
+            console.log(lyric[i - 1]);
         }
-    }
+    }, [bufferedPercent, currentLyricIndex, currentTimeMS, dispatch, duration, isChanging, lyric, progress])
     const changeMusic = useCallback((tag) => {
         dispatch(changeCurrentIndexAndSong(tag));
     }, [dispatch])
@@ -137,9 +127,9 @@ export default memo(function CMPAppPlayerBar() {
         else {
             if (playList.length >= 2) {
                 dispatch(changeCurrentIndexAndSong(1))
-                dispatch(changeCurrentTimeMSAction(0));
-                dispatch(changePROGRESSAction(0));
-                dispatch(changeBufferedPercentAction(0));
+                setCurrentTimeMS(0);
+                setProgress(0);
+                setBufferedPercent(0);
             }
             else {
                 audioRef.current.curentTime = 0;
@@ -158,17 +148,17 @@ export default memo(function CMPAppPlayerBar() {
 
     const sliderChange = useCallback((value) => {
         setIsChanging(true);
-        dispatch(changePROGRESSAction(value));
+        setProgress(Math.round(value));
         const currentTimeMS = value / 100 * duration;
-        dispatch(changeCurrentTimeMSAction(currentTimeMS));
-    }, [duration, dispatch])
+        setCurrentTimeMS(currentTimeMS);
+    }, [duration])
 
     const sliderAfterChange = useCallback((value) => {
         const currentTimeS = value / 100 * duration / 1000;
         audioRef.current.currentTime = currentTimeS;
-        dispatch(changeCurrentTimeMSAction(currentTimeS * 1000));
+        setCurrentTimeMS(currentTimeS * 1000);
         setIsChanging(false);
-    }, [duration, dispatch])
+    }, [duration])
 
     return (
         <PlayerBarWrapper className="sprite_playbar">

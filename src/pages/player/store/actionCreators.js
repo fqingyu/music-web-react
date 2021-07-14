@@ -67,23 +67,6 @@ export const changeIsPlayingAction = (isPlaying) => ({
     isPlaying
 })
 
-export const changePROGRESSAction = (progress) => ({
-    type:actionTypes.CHANGE_PROGRESS,
-    progress
-})
-
-export const changeBufferedPercentAction = (bufferedPercent) => ({
-    type: actionTypes.CHANGE_BUFFERED_PERCENT,
-    bufferedPercent
-})
-
-
-export const changeCurrentTimeMSAction = (currentTimeMS) => ({
-    type: actionTypes.CHANGE_CURRENT_TIME_MS,
-    currentTimeMS
-})
-
-
 export const getSongDetailAction = (ids) => {
     return (dispatch, getState) => {
         // 根据id查找playList中是否已经有了该歌曲

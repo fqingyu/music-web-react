@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import sprite_footer_01 from '@/assets/img/sprite_footer_01.png';
-import sprite_footer_02 from '@/assets/img/sprite_footer_02.png';
 
 export const FooterWrapper = styled.div`
     height: 172px;
@@ -55,7 +53,6 @@ export const FooterRight = styled.ul`
             display: block;
             width: 50px;
             height: 45px;
-            background: url(${sprite_footer_02}) no-repeat;
             background-size: 110px 552px;
             margin: 0 auto;
             text-indent: -99999px;
@@ -85,7 +82,6 @@ export const FooterRight = styled.ul`
             width: 52px;
             height: 14px;
             margin: 5px 5px 0 5px;
-            background: url(${sprite_footer_01}) no-repeat;
             background-size: 180px 139px;
         }
 
