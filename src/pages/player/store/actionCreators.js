@@ -23,7 +23,7 @@ export const changeSequenceAction = (sequence) => ({
     sequence
 })
 
-export const changeCurrentSong = (tag) => {
+export const changeCurrentIndexAndSong = (tag) => {
     return (dispatch, getState) => {
         const sequence = getState().getIn(["player", "sequence"]);
         const playList = getState().getIn(["player", "playList"]);
@@ -35,6 +35,7 @@ export const changeCurrentSong = (tag) => {
                     randomIndex = getRandom(playList.length);
                 }
                 currentSongIndex = randomIndex;
+                console.log(currentSongIndex);
                 break;
             default: // 顺序播放
                 currentSongIndex += tag;

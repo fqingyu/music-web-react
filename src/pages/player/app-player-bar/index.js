@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { getSizeImage } from '@/utils/format-utils';
 import default_album from '@/assets/img/default_album.jpg';
 import { msToTime } from '@/utils/format-utils';
-import { getPlaySong, changeSequenceAction, changeCurrentSong, changePROGRESSAction, changeBufferedPercentAction, changeIsPlayingAction, changeCurrentTimeMSAction } from '../store/actionCreators';
+import { getPlaySong, changeSequenceAction, changeCurrentIndexAndSong, changePROGRESSAction, changeBufferedPercentAction, changeIsPlayingAction, changeCurrentTimeMSAction } from '../store/actionCreators';
 
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
@@ -36,12 +36,16 @@ export default memo(function CMPAppPlayerBar() {
     useEffect(() => {
         audioRef.current.src = getPlaySong(currentSong.id);
         if (currentSong.id) {
-            audioRef.current.play();
-            dispatch(changeIsPlayingAction(true));
+            audioRef.current.play().then(res => {
+                dispatch(changeIsPlayingAction(true));
+            }).catch(err => {
+                dispatch(changeIsPlayingAction(false));
+            })
             dispatch(changeCurrentTimeMSAction(0));
             dispatch(changePROGRESSAction(0));
+            dispatch(changeBufferedPercentAction(0));
         }
-    }, [currentSong])
+    }, [currentSong, dispatch])
 
 
     // ohter logics
@@ -80,12 +84,25 @@ export default memo(function CMPAppPlayerBar() {
         }
     }
     const changeMusic = useCallback((tag) => {
-        dispatch(changeCurrentSong(tag));
-    })
+        dispatch(changeCurrentIndexAndSong(tag));
+    }, [dispatch])
+
+    const handleMusicEnded = useCallback(() => {
+        if (sequence === 2) { // 单曲循环
+            audioRef.current.curentTime = 0;
+            audioRef.current.play();
+        }
+        else {
+            dispatch(changeCurrentIndexAndSong(1))
+        }
+        dispatch(changeCurrentTimeMSAction(0));
+        dispatch(changePROGRESSAction(0));
+        dispatch(changeBufferedPercentAction(0));
+    }, [dispatch, sequence])
 
     const changeSequence = useCallback(() => {
         let currentSequence = sequence + 1;
-        if(currentSequence > 2) {
+        if (currentSequence > 2) {
             currentSequence = 0;
         }
         dispatch(changeSequenceAction(currentSequence));
@@ -155,7 +172,9 @@ export default memo(function CMPAppPlayerBar() {
                     </div>
                 </Operator>
             </div>
-            <audio className="audio" ref={audioRef} onTimeUpdate={timeUpdate} />
+            <audio className="audio" ref={audioRef}
+                onTimeUpdate={e => timeUpdate(e)}
+                onEnded={e => handleMusicEnded()} />
         </PlayerBarWrapper>
     )
 })
