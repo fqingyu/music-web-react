@@ -26,3 +26,8 @@ export function msToTime(duration) {
 
     return (hours === "00" ? "" : hours + ":") + minutes + ":" + seconds;
 }
+
+export function changeBlurImage(picStr) {
+    const blurImg = "//music.163.com/api/img/blur/" + picStr;
+    return blurImg;
+}

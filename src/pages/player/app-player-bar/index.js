@@ -13,6 +13,7 @@ import {
     changeIsPlayingAction,
 } from '../store/actionCreators';
 
+import CMPlayList from './c-cpns/play-list';
 import { message } from 'antd';
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
@@ -118,7 +119,8 @@ export default memo(function CMPAppPlayerBar() {
                 message.open({
                     key: "lyric",
                     content: content,
-                    duration: 1000
+                    duration: 1000,
+                    className: "lyric-class"
                 })
             }
         }
@@ -166,10 +168,13 @@ export default memo(function CMPAppPlayerBar() {
         audioRef.current.currentTime = currentTimeS;
         setCurrentTimeMS(currentTimeS * 1000);
         setIsChanging(false);
-    }, [duration])
+        audioRef.current.play();
+        dispatch(changeIsPlayingAction(true));
+    }, [duration, dispatch])
 
     return (
         <PlayerBarWrapper className="sprite_playbar">
+            <CMPlayList />
             <div className="content wrap-v2">
                 <Control isPlaying={isPlaying}>
                     <button className="sprite_playbar prev" onClick={e => changeMusic(-1)}></button>

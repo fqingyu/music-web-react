@@ -166,7 +166,11 @@ button {
     background: url(../img/sprite_cover.png) no-repeat -145px -57px;
 }
 
-.ant-message .ant-message-notice-content {
+.playlist_bg {
+    background: url(../img/playlist_bg.png);
+}
+
+.lyric-class .ant-message-notice-content {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
