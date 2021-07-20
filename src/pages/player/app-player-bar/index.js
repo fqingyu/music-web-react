@@ -9,10 +9,11 @@ import {
     getPlaySong,
     changeSequenceAction,
     changeCurrentLyricIndexAction,
-    changeCurrentIndexAndSong, 
+    changeCurrentIndexAndSong,
     changeIsPlayingAction,
 } from '../store/actionCreators';
 
+import { message } from 'antd';
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
 
@@ -112,7 +113,14 @@ export default memo(function CMPAppPlayerBar() {
         }
         if (currentLyricIndex !== i - 1) {
             dispatch(changeCurrentLyricIndexAction(i - 1));
-            console.log(lyric[i - 1]);
+            const content = lyric[i - 1] && lyric[i - 1].content
+            if (content) {
+                message.open({
+                    key: "lyric",
+                    content: content,
+                    duration: 1000
+                })
+            }
         }
     }, [bufferedPercent, currentLyricIndex, currentTimeMS, dispatch, duration, isChanging, lyric, progress])
     const changeMusic = useCallback((tag) => {
