@@ -129,6 +129,12 @@ export default memo(function CMPAppPlayerBar() {
         dispatch(changeCurrentIndexAndSong(tag));
     }, [dispatch])
 
+    const preventDefault = useCallback((e) => {
+        if (!currentSong.id) {
+            e.preventDefault();
+        }
+    }, [currentSong.id])
+
     const handleMusicEnded = useCallback(() => {
         if (sequence === 2) { // 单曲循环
             audioRef.current.curentTime = 0;
@@ -183,13 +189,13 @@ export default memo(function CMPAppPlayerBar() {
                 </Control>
                 <PlayInfo bufferPercentage={bufferedPercent}>
                     <div className="image">
-                        <NavLink to={`/song?id=${currentSong.id}`}>
+                        <NavLink to={`/song?id=${currentSong.id}`}  onClick={e => preventDefault(e)}>
                             <img src={picUrl} alt="song-pic" />
                         </NavLink>
                     </div>
                     <div className="info">
                         <div className="song">
-                            <NavLink className="song-name" to={`/song?id=${currentSong.id}`}>
+                            <NavLink className="song-name" to={`/song?id=${currentSong.id}`} onClick={e => preventDefault(e)}>
                                 <span>{currentSong.name}</span>
                             </NavLink>
                             <a href="#/" className="singer-name">{singerName}</a>

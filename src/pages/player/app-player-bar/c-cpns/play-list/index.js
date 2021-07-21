@@ -5,12 +5,14 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { PlayListWrapper, PlayListHeader, PlayListContent } from './style';
+import PlayListSong from '@/components/playlist-song';
 
 export default memo(function CMPlayList() {
 
     // redux hooks
-    const { currentSong, playList } = useSelector(state => ({
+    const { currentSong, currentSongIndex, playList } = useSelector(state => ({
         currentSong: state.getIn(["player", "currentSong"]),
+        currentSongIndex: state.getIn(["player", "currentSongIndex"]),
         playList: state.getIn(["player", "playList"])
     }))
 
@@ -51,6 +53,19 @@ export default memo(function CMPlayList() {
                     picStr ?
                         <img src={changeBlurImage(picStr)} alt="song_img" className="song_image" /> : null
                 }
+                <div className="mask1" />
+                <div className="left">
+                    <ul>
+                        {
+                            playList.map((item, index) => {
+                                return (
+                                    <PlayListSong song={playList[index]} isPlaying={index === currentSongIndex ? true : false}/>
+                                )
+                            })
+                        }
+                    </ul>
+                </div>
+                <div className="border-line" />
             </PlayListContent>
         </PlayListWrapper>
     )

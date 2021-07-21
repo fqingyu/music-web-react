@@ -124,4 +124,43 @@ export const PlayListContent = styled.div`
         height: auto;
         opacity: .2;
     }
+
+    .mask1 {
+        position: absolute;
+        left: 2px;
+        top: 0;
+        z-index: 2;
+        width: 558px;
+        height: 260px;
+        background: #121212;
+        opacity: .5;
+    }
+
+    .left {
+        position: absolute;
+        left: 2px;
+        top: 0;
+        z-index: 4;
+        height: 260px;
+        width: 553px;
+        overflow: hidden;
+        ul {
+            color: #ccc;
+            overflow: hidden;
+            li.playing {
+                background-color: rgba(0,0,0,0.3);
+            }
+        }
+    }
+
+    .border-line {
+        position: absolute;
+        left: 555px;
+        top: -1px;
+        z-index: 2;
+        width: 6px;
+        height: 260px;
+        background: #000;
+        opacity: .5;
+    }
 `
