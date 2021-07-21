@@ -5,15 +5,16 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { PlayListWrapper, PlayListHeader, PlayListContent } from './style';
-import PlayListSong from '@/components/playlist-song';
+import CMPlayListSong from '@/components/playlist-song';
 
 export default memo(function CMPlayList() {
 
     // redux hooks
-    const { currentSong, currentSongIndex, playList } = useSelector(state => ({
+    const { currentSong, currentSongIndex, playList, lyric } = useSelector(state => ({
         currentSong: state.getIn(["player", "currentSong"]),
         currentSongIndex: state.getIn(["player", "currentSongIndex"]),
-        playList: state.getIn(["player", "playList"])
+        playList: state.getIn(["player", "playList"]),
+        lyric: state.getIn(["player", "lyric"])
     }))
 
     // other hooks
@@ -57,15 +58,34 @@ export default memo(function CMPlayList() {
                 <div className="left">
                     <ul>
                         {
+                            playList.length !== 0 ? 
                             playList.map((item, index) => {
                                 return (
-                                    <PlayListSong song={playList[index]} isPlaying={index === currentSongIndex ? true : false}/>
+                                    <CMPlayListSong key={item.name} song={item} isPlaying={index === currentSongIndex ? true : false}/>
                                 )
-                            })
+                            }) : null
                         }
                     </ul>
                 </div>
                 <div className="border-line" />
+                <div className="ask">
+                    <i className="sprite_playlist ask"></i>
+                </div>
+                <div className="mask2" />
+                <div className="border-line2" />
+                <div className="list-lyric">
+                    <div className="list-lyric-wrapper">
+                        {
+                            lyric.map((item, index) => {
+                                return (
+                                    <p className={`lyric lyric-${index}`} key={index}>
+                                        {item.content}
+                                    </p>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
             </PlayListContent>
         </PlayListWrapper>
     )

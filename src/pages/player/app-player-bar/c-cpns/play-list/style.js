@@ -110,7 +110,7 @@ export const PlayListContent = styled.div`
     position: absolute;
     left: 0;
     top: 41px;
-    width: 976px;
+    width: 986px;
     height: 260px;
     overflow: hidden;
     background-position: -1014px 0;
@@ -163,4 +163,78 @@ export const PlayListContent = styled.div`
         background: #000;
         opacity: .5;
     }
+
+    .ask {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        cursor: pointer;
+        z-index: 5;
+        .ask {
+            display: inline-block;
+            width: 21px;
+            height: 21px;
+            background-position: 0 -50px;
+            text-indent: 0;
+            &:hover {
+                background-position: -24px -50px;
+            }
+        }
+    }
+
+    .mask2 {
+        position: absolute;
+        left: 560px;
+        top: 0;
+        z-index: 3;
+        width: 420px;
+        height: 250px;
+        background: #121212;
+        opacity: .01;
+    }
+
+    .border-line2 {
+        left: auto;
+        right: 2px;
+        position: absolute;
+        top: -1px;
+        z-index: 2;
+        width: 6px;
+        height: 260px;
+        background: #000;
+        opacity: .5;
+    }
+
+    .list-lyric {
+        position: absolute;
+        right: 40px;
+        top: 0;
+        z-index: 4;
+        margin: 21px 0 20px 0;
+        height: 219px;
+        width: 354px;
+        overflow: hidden;
+        .list-lyric-wrapper {
+            transition: transform 330ms ease-in-out;
+            .lyric {
+                color: #989898;
+                word-wrap: break-word;
+                text-align: center;
+                line-height: 32px;
+                height: auto !important;
+                min-height: 32px;
+                transition: color 0.7s linear;
+                &.active {
+                    color: #fff;
+                    font-size: 14px;
+                    -webkit-transition: color 0.7s linear;
+                    -moz-transition: color 0.7s linear;
+                    -o-transition: color 0.7s linear;
+                    transition: color 0.7s linear;
+                }
+            }
+        }
+        
+    }
+
 `

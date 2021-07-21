@@ -14,7 +14,7 @@ import {
 } from '../store/actionCreators';
 
 import CMPlayList from './c-cpns/play-list';
-import { message } from 'antd';
+// import { message } from 'antd';
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
 
@@ -57,6 +57,18 @@ export default memo(function CMPAppPlayerBar() {
             setCurrentTimeMS(0);
             setProgress(0);
             setBufferedPercent(0);
+        }
+
+        // 切歌时移除active class
+        const lyrics = document.querySelectorAll('.list-lyric-wrapper .lyric');
+        for (let i = 0; i < lyrics.length; i++){
+            lyrics[i].classList.remove('active');   
+        }
+
+        // 切歌时移除inline style
+        const lyricWrapper = document.querySelector('.list-lyric-wrapper');
+        if(lyricWrapper) {
+            lyricWrapper.style.removeProperty("transform");
         }
     }, [currentSong, dispatch])
 
@@ -112,16 +124,31 @@ export default memo(function CMPAppPlayerBar() {
                 break
             }
         }
+        // console.log(i);
         if (currentLyricIndex !== i - 1) {
             dispatch(changeCurrentLyricIndexAction(i - 1));
-            const content = lyric[i - 1] && lyric[i - 1].content
-            if (content) {
-                message.open({
-                    key: "lyric",
-                    content: content,
-                    duration: 1000,
-                    className: "lyric-class"
-                })
+            // const content = lyric[i - 1] && lyric[i - 1].content;
+            // if (content) {
+            //     message.open({
+            //         key: "lyric",
+            //         content: content,
+            //         duration: 1000,
+            //         className: "lyric-class"
+            //     })
+            // }
+            const lyrics = document.querySelectorAll('.list-lyric-wrapper .lyric');
+            for (let i = 0; i < lyrics.length; i++){
+                lyrics[i].classList.remove('active');   
+            }
+
+            const currentLyric = document.querySelector(`.lyric-${i-1}`);
+            if(currentLyric) {
+                currentLyric.classList.add("active");
+            }
+
+            if(i - 1 >=4 && i - 1 <= lyric.length - 3) {
+                const lyricItem = document.querySelector('.list-lyric-wrapper');
+                lyricItem.style.transform = `translateY(${-(i-4)*32}px)`;
             }
         }
     }, [bufferedPercent, currentLyricIndex, currentTimeMS, dispatch, duration, isChanging, lyric, progress])

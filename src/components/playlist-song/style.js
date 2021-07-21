@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const PlayListSongWrapper = styled.li`
+export const PlayListSongWrapper = styled.div`
     float: left;
     width: 100%;
     display: flex;
