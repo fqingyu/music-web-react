@@ -1,15 +1,41 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { msToTime } from '@/utils/format-utils';
+import { changeCurrentIndexAndSong, changeIsPlayingAction } from '@/pages/player/store/actionCreators';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { PlayListSongWrapper } from './style';
 
 export default memo(function CMPlayListSong(props) {
-    const { song, isPlaying } = props;
+    // inner state
+    const { song, isPlaying, index } = props;
+
+    // redux hooks 
+    const dispatch = useDispatch();
+    const { currentSongIndex } = useSelector(state => ({
+        currentSongIndex: state.getIn(["player", "currentSongIndex"])
+    }))
+
+    // other hooks
+
+    // other logic
+    const changeMusic = useCallback(() => {
+        if (currentSongIndex !== index) {
+            dispatch(changeCurrentIndexAndSong(2, index));
+        }
+
+        else {
+            const audioDom = document.querySelector('.audio');
+            audioDom.currentTime = 0;
+            audioDom.play();
+            dispatch(changeIsPlayingAction(true));
+        }        
+    }, [dispatch, currentSongIndex, index])
+
 
     return (
-        <PlayListSongWrapper className={isPlaying ? "playing" : null} isPlaying={isPlaying}>
+        <PlayListSongWrapper className={isPlaying ? "playing" : null} isPlaying={isPlaying} onClick={e => changeMusic()}>
             <div className="col col-1">
                 {
                     isPlaying ?

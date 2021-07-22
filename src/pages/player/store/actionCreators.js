@@ -34,7 +34,7 @@ export const changeCurrentLyricIndexAction = (currentLyricIndex) => ({
     currentLyricIndex
 })
 
-export const changeCurrentIndexAndSong = (tag) => {
+export const changeCurrentIndexAndSong = (tag, index=0) => {
     return (dispatch, getState) => {
         const sequence = getState().getIn(["player", "sequence"]);
         const playList = getState().getIn(["player", "playList"]);
@@ -46,6 +46,9 @@ export const changeCurrentIndexAndSong = (tag) => {
                     randomIndex = getRandom(playList.length);
                 }
                 currentSongIndex = randomIndex;
+                break;
+            case 2: // 指定播放
+                currentSongIndex = index;
                 break;
             default: // 顺序播放
                 currentSongIndex += tag;

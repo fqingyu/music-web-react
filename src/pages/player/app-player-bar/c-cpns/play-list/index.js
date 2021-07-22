@@ -58,12 +58,17 @@ export default memo(function CMPlayList() {
                 <div className="left">
                     <ul>
                         {
-                            playList.length !== 0 ? 
-                            playList.map((item, index) => {
-                                return (
-                                    <CMPlayListSong key={item.name} song={item} isPlaying={index === currentSongIndex ? true : false}/>
-                                )
-                            }) : null
+                            playList.length !== 0 ?
+                                playList.map((item, index) => {
+                                    return (
+                                        <CMPlayListSong
+                                            key={item.name}
+                                            index={index}
+                                            song={item}
+                                            isPlaying={index === currentSongIndex ? true : false}
+                                        />
+                                    )
+                                }) : null
                         }
                     </ul>
                 </div>
