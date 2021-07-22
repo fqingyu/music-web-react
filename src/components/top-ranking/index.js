@@ -11,13 +11,14 @@ export default memo(function CMTopRanking(props) {
 
     // redux hooks
     const dispatch = useDispatch();
-    const { currentSong } = useSelector(state => ({
-        currentSong: state.getIn(["player", "currentSong"])
+    const { currentSong, playList } = useSelector(state => ({
+        currentSong: state.getIn(["player", "currentSong"]),
+        playList: state.getIn(["player", "playList"]),
     }), shallowEqual);
 
     // other logics
     const playMusic = useCallback((item) => {
-        if(currentSong && currentSong.id !== item.id) {
+        if(currentSong && (currentSong.id !== item.id || playList.length === 0)) {
             dispatch(actionCreators.getSongDetailAction(item.id))
             dispatch(actionCreators.changeIsPlayingAction(true));
         }
@@ -27,7 +28,7 @@ export default memo(function CMTopRanking(props) {
             audioDom.play();
             dispatch(actionCreators.changeIsPlayingAction(true));
         }
-    }, [dispatch, currentSong])
+    }, [dispatch, currentSong, playList.length])
 
     return (
         <TopRankingWrapper>

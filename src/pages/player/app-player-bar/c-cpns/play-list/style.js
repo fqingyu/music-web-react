@@ -56,6 +56,7 @@ export const PlayListHeader = styled.div`
     }
 
     .clear {
+        background: transparent;
         position: absolute;
         left: 490px;
         top: 12px;

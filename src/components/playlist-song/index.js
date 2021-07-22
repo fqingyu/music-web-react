@@ -1,9 +1,10 @@
 import React, { memo, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { msToTime } from '@/utils/format-utils';
-import { changeCurrentIndexAndSong, changeIsPlayingAction } from '@/pages/player/store/actionCreators';
-import { useDispatch, useSelector } from 'react-redux';
+import { changeCurrentIndexAndSong, changeIsPlayingAction, changePlayListAction } from '@/pages/player/store/actionCreators';
+
 
 import { PlayListSongWrapper } from './style';
 
@@ -13,29 +14,38 @@ export default memo(function CMPlayListSong(props) {
 
     // redux hooks 
     const dispatch = useDispatch();
-    const { currentSongIndex } = useSelector(state => ({
-        currentSongIndex: state.getIn(["player", "currentSongIndex"])
+    const { currentSongIndex, playList } = useSelector(state => ({
+        currentSongIndex: state.getIn(["player", "currentSongIndex"]),
+        playList: state.getIn(["player", "playList"])
     }))
 
     // other hooks
 
     // other logic
-    const changeMusic = useCallback(() => {
-        if (currentSongIndex !== index) {
-            dispatch(changeCurrentIndexAndSong(2, index));
+    const changeMusic = useCallback((e) => {
+        if(!e.target.classList.contains('icon')) {
+            console.log(123);
+            if (currentSongIndex !== index) {
+                dispatch(changeCurrentIndexAndSong(2, index));
+            }
+    
+            else {
+                const audioDom = document.querySelector('.audio');
+                audioDom.currentTime = 0;
+                audioDom.play();
+                dispatch(changeIsPlayingAction(true));
+            }        
         }
-
-        else {
-            const audioDom = document.querySelector('.audio');
-            audioDom.currentTime = 0;
-            audioDom.play();
-            dispatch(changeIsPlayingAction(true));
-        }        
+        
     }, [dispatch, currentSongIndex, index])
 
+    const deleteSong = useCallback(() => {
+        playList.splice(currentSongIndex, 1);
+        dispatch(changePlayListAction(playList));
+    }, [dispatch, currentSongIndex, playList])
 
     return (
-        <PlayListSongWrapper className={isPlaying ? "playing" : null} isPlaying={isPlaying} onClick={e => changeMusic()}>
+        <PlayListSongWrapper className={isPlaying ? "playing" : null} isPlaying={isPlaying} onClick={e => changeMusic(e)}>
             <div className="col col-1">
                 {
                     isPlaying ?
@@ -45,10 +55,10 @@ export default memo(function CMPlayListSong(props) {
             </div>
             <div className="col col-2 text-nowrap">{song.name}</div>
             <div className="col col-3">
-                <i className="icon-add sprite_playlist" title="收藏">收藏</i>
-                <i className="icon-share sprite_playlist" title="分享">分享</i>
-                <i className="icon-download sprite_playlist" title="下载">下载</i>
-                <i className="icon-delete sprite_playlist" title="删除">删除</i>
+                <i className="icon icon-add sprite_playlist" title="收藏">收藏</i>
+                <i className="icon icon-share sprite_playlist" title="分享">分享</i>
+                <i className="icon icon-download sprite_playlist" title="下载">下载</i>
+                <i className="icon icon-delete sprite_playlist" title="删除" onClick={e => deleteSong()}>删除</i>
             </div>
             <div className="col col-4">
                 <span className="artist text-nowrap">

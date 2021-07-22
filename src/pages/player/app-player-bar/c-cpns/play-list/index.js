@@ -1,11 +1,13 @@
 import React, { memo, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 import { changeBlurImage } from '@/utils/format-utils';
-import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { changePlayListAction } from '../../../store/actionCreators';
 
 import { PlayListWrapper, PlayListHeader, PlayListContent } from './style';
 import CMPlayListSong from '@/components/playlist-song';
+
 
 export default memo(function CMPlayList() {
 
@@ -16,6 +18,7 @@ export default memo(function CMPlayList() {
         playList: state.getIn(["player", "playList"]),
         lyric: state.getIn(["player", "lyric"])
     }))
+    const dispatch = useDispatch();
 
     // other hooks
     const picStr = (currentSong.al && currentSong.al.pic_str) || null;
@@ -27,9 +30,8 @@ export default memo(function CMPlayList() {
     }, [])
 
     const clearAll = useCallback((e) => {
-        e.preventDefault();
-        console.log("to be done later")
-    }, [])
+        dispatch(changePlayListAction([]));
+    }, [dispatch])
 
     return (
         <PlayListWrapper>
@@ -41,10 +43,10 @@ export default memo(function CMPlayList() {
                         收藏全部
                     </NavLink>
                     <span className="split-line"></span>
-                    <NavLink to="" className="clear" onClick={e => clearAll(e)}>
+                    <button className="clear" onClick={e => clearAll(e)}>
                         <span className="sprite_playlist icon-delete"></span>
                         清除
-                    </NavLink>
+                    </button>
                     <p className="title">{currentSong.name}</p>
                     <span className="sprite_playlist close">关闭</span>
                 </div>
