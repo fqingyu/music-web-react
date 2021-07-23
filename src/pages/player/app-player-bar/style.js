@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import progress_bar from '@/assets/img/progress_bar.png';
 import sprite_icon from '@/assets/img/sprite_icon.png';
+import playbar_sprite from '@/assets/img/playbar_sprite.png';
 
 export const PlayerBarWrapper = styled.div`
     position: fixed;
@@ -168,6 +169,45 @@ export const Operator = styled.div`
         width: 126px;
         padding-left: 13px;
         background-position: -147px -248px;
+
+
+        .volume-wrapper {
+            position: absolute;
+            bottom: 40px;
+            width: 32px;
+            height: 113px;
+            background-position: 0 -503px;
+            .volume-slider {
+                display: inline-block;
+                position: absolute;
+                bottom: 3px;
+                height: 93px;
+                width: 32px;
+
+                .ant-slider-rail {
+                    background: transparent;
+                }
+
+                .ant-slider-track {
+                    background: url(${playbar_sprite});
+                    background-position: -40px bottom;
+                }
+
+                .ant-slider-handle {
+                    width: 22px;
+                    height: 24px;
+                    border: none;
+                    margin-top: -7px;
+                    margin-left: -7px;
+                    background: url(${sprite_icon}) -40px -250px;
+                }
+
+                .ant-slider-handle:hover {
+                    background-position: -40px -280px;
+                }
+            }
+        }
+        
 
         .volume {
             background-position: -2px -248px;

@@ -24,6 +24,7 @@ export default memo(function CMPAppPlayerBar() {
     const [progress, setProgress] = useState(0);
     const [bufferedPercent, setBufferedPercent] = useState(0);
     const [currentTimeMS, setCurrentTimeMS] = useState(0);
+    const [volume, setVolume] = useState(0.5);
 
     // redux hook
     const {
@@ -63,13 +64,13 @@ export default memo(function CMPAppPlayerBar() {
 
         // 切歌时移除active class
         const lyrics = document.querySelectorAll('.list-lyric-wrapper .lyric');
-        for (let i = 0; i < lyrics.length; i++){
-            lyrics[i].classList.remove('active');   
+        for (let i = 0; i < lyrics.length; i++) {
+            lyrics[i].classList.remove('active');
         }
 
         // 切歌时移除inline style
         const lyricWrapper = document.querySelector('.list-lyric-wrapper');
-        if(lyricWrapper) {
+        if (lyricWrapper) {
             lyricWrapper.style.removeProperty("transform");
         }
     }, [currentSong, dispatch])
@@ -130,18 +131,18 @@ export default memo(function CMPAppPlayerBar() {
         if (currentLyricIndex !== i - 1) {
             dispatch(changeCurrentLyricIndexAction(i - 1));
             const lyrics = document.querySelectorAll('.list-lyric-wrapper .lyric');
-            for (let i = 0; i < lyrics.length; i++){
-                lyrics[i].classList.remove('active');   
+            for (let i = 0; i < lyrics.length; i++) {
+                lyrics[i].classList.remove('active');
             }
 
-            const currentLyric = document.querySelector(`.lyric-${i-1}`);
-            if(currentLyric) {
+            const currentLyric = document.querySelector(`.lyric-${i - 1}`);
+            if (currentLyric) {
                 currentLyric.classList.add("active");
             }
 
-            if(i - 1 >=4 && i - 1 <= lyric.length - 3) {
+            if (i - 1 >= 4 && i - 1 <= lyric.length - 3) {
                 const lyricItem = document.querySelector('.list-lyric-wrapper');
-                lyricItem.style.transform = `translateY(${-(i-4)*32}px)`;
+                lyricItem.style.transform = `translateY(${-(i - 4) * 32}px)`;
             }
         }
     }, [bufferedPercent, currentLyricIndex, currentTimeMS, dispatch, duration, isChanging, lyric, progress])
@@ -182,6 +183,7 @@ export default memo(function CMPAppPlayerBar() {
         dispatch(changeSequenceAction(currentSequence));
     }, [dispatch, sequence])
 
+    // 音乐进度播放条
     const sliderChange = useCallback((value) => {
         setIsChanging(true);
         setProgress(Math.round(value));
@@ -198,6 +200,19 @@ export default memo(function CMPAppPlayerBar() {
         dispatch(changeIsPlayingAction(true));
     }, [duration, dispatch])
 
+    // 音量条
+    const volumeChange = useCallback((value) => {
+        const volume = value / 100;
+        setVolume(volume);
+        audioRef.current.volume = volume;
+    }, [])
+
+    const volumeAfterChange = useCallback((value) => {
+        const volume = value / 100;
+        setVolume(volume);
+        audioRef.current.volume = volume;
+    }, [])
+
     const changeShowUp = useCallback(() => {
         dispatch(changePlayListShowUpAction(!playListShowUp));
     }, [dispatch, playListShowUp])
@@ -213,7 +228,7 @@ export default memo(function CMPAppPlayerBar() {
                 </Control>
                 <PlayInfo bufferPercentage={bufferedPercent}>
                     <div className="image">
-                        <NavLink to={`/song?id=${currentSong.id}`}  onClick={e => preventDefault(e)}>
+                        <NavLink to={`/song?id=${currentSong.id}`} onClick={e => preventDefault(e)}>
                             <img src={picUrl} alt="song-pic" />
                         </NavLink>
                     </div>
@@ -245,6 +260,17 @@ export default memo(function CMPAppPlayerBar() {
                         <button className="sprite_playbar btn share" />
                     </div>
                     <div className="right sprite_playbar">
+                        <div className="volume-wrapper sprite_playbar">
+                            <Slider
+                                vertical
+                                defaultValue={50}
+                                className="volume-slider"
+                                tooltipVisible={false} 
+                                value={volume*100}
+                                onChange={volumeChange}
+                                onAfterChange={volumeAfterChange}
+                                />
+                        </div>
                         <button className="sprite_playbar btn volume" />
                         <button className="sprite_playbar btn loop" onClick={e => changeSequence()} />
                         <button className="sprite_playbar btn playlist" onClick={e => changeShowUp()}>
@@ -255,7 +281,8 @@ export default memo(function CMPAppPlayerBar() {
             </div>
             <audio className="audio" ref={audioRef}
                 onTimeUpdate={e => timeUpdate(e)}
-                onEnded={e => handleMusicEnded()} />
+                onEnded={e => handleMusicEnded()}
+            />
         </PlayerBarWrapper>
     )
 })
