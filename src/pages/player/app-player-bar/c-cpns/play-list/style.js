@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const PlayListWrapper = styled.div`
+    display: ${props => props.showUp ? null : "none"};
     position: absolute;
     left: 50%;
     bottom: 47px;

@@ -12,11 +12,12 @@ import CMPlayListSong from '@/components/playlist-song';
 export default memo(function CMPlayList() {
 
     // redux hooks
-    const { currentSong, currentSongIndex, playList, lyric } = useSelector(state => ({
+    const { currentSong, currentSongIndex, playList, lyric, playListShowUp } = useSelector(state => ({
         currentSong: state.getIn(["player", "currentSong"]),
         currentSongIndex: state.getIn(["player", "currentSongIndex"]),
         playList: state.getIn(["player", "playList"]),
-        lyric: state.getIn(["player", "lyric"])
+        lyric: state.getIn(["player", "lyric"]),
+        playListShowUp: state.getIn(["player", "playListShowUp"]),
     }))
     const dispatch = useDispatch();
 
@@ -34,7 +35,7 @@ export default memo(function CMPlayList() {
     }, [dispatch])
 
     return (
-        <PlayListWrapper>
+        <PlayListWrapper showUp={playListShowUp}>
             <PlayListHeader className="playlist_bg">
                 <div>
                     <h4>播放列表({playList.length})</h4>

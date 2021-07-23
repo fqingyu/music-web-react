@@ -11,10 +11,10 @@ import {
     changeCurrentLyricIndexAction,
     changeCurrentIndexAndSong,
     changeIsPlayingAction,
+    changePlayListShowUpAction
 } from '../store/actionCreators';
 
 import CMPlayList from './c-cpns/play-list';
-// import { message } from 'antd';
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
 import { Slider } from 'antd';
 
@@ -33,6 +33,7 @@ export default memo(function CMPAppPlayerBar() {
         lyric,
         currentLyricIndex,
         isPlaying,
+        playListShowUp
     } = useSelector(state => ({
         currentSong: state.getIn(["player", "currentSong"]),
         playList: state.getIn(["player", "playList"]),
@@ -40,6 +41,7 @@ export default memo(function CMPAppPlayerBar() {
         lyric: state.getIn(["player", "lyric"]),
         currentLyricIndex: state.getIn(["player", "currentLyricIndex"]),
         isPlaying: state.getIn(["player", "isPlaying"]),
+        playListShowUp: state.getIn(["player", "playListShowUp"]),
     }), shallowEqual);
     const dispatch = useDispatch();
 
@@ -124,18 +126,9 @@ export default memo(function CMPAppPlayerBar() {
                 break
             }
         }
-        // console.log(i);
+
         if (currentLyricIndex !== i - 1) {
             dispatch(changeCurrentLyricIndexAction(i - 1));
-            // const content = lyric[i - 1] && lyric[i - 1].content;
-            // if (content) {
-            //     message.open({
-            //         key: "lyric",
-            //         content: content,
-            //         duration: 1000,
-            //         className: "lyric-class"
-            //     })
-            // }
             const lyrics = document.querySelectorAll('.list-lyric-wrapper .lyric');
             for (let i = 0; i < lyrics.length; i++){
                 lyrics[i].classList.remove('active');   
@@ -205,6 +198,11 @@ export default memo(function CMPAppPlayerBar() {
         dispatch(changeIsPlayingAction(true));
     }, [duration, dispatch])
 
+    const changeShowUp = useCallback(() => {
+        console.log(123);
+        dispatch(changePlayListShowUpAction(!playListShowUp));
+    }, [dispatch, playListShowUp])
+
     return (
         <PlayerBarWrapper className="sprite_playbar">
             <CMPlayList />
@@ -250,7 +248,7 @@ export default memo(function CMPAppPlayerBar() {
                     <div className="right sprite_playbar">
                         <button className="sprite_playbar btn volume" />
                         <button className="sprite_playbar btn loop" onClick={e => changeSequence()} />
-                        <button className="sprite_playbar btn playlist">
+                        <button className="sprite_playbar btn playlist" onClick={e => changeShowUp()}>
                             <span className="songs-count">{playList.length}</span>
                         </button>
                     </div>

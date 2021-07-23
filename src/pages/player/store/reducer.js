@@ -9,6 +9,7 @@ const defaultState = Map({
     sequence: 0, // 0 循环 1 随机 2 单曲
     lyric: [],
     currentLyricIndex: 0,
+    playListShowUp: false,
 
     isPlaying: false,
 })
@@ -27,7 +28,9 @@ function reducer(state = defaultState, action) {
         case actionTypes.CHANGE_LYRIC_LIST:
             return state.set("lyric", action.lyric);
         case actionTypes.CHANGE_CURRENT_LYRIC_INDEX:
-            return state.set("currentLyricIndex", action.currentLyricIndex)
+            return state.set("currentLyricIndex", action.currentLyricIndex);
+        case actionTypes.CHANGE_PLAYLIST_SHOW_UP:
+            return state.set("playListShowUp", action.playListShowUp);
 
         // 进度条相关数据
         case actionTypes.CHANGE_IS_PLAYING:

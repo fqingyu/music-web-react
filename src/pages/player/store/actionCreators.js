@@ -121,3 +121,8 @@ export function getLyricAction(id) {
         })
     }
 }
+
+export const changePlayListShowUpAction = (playListShowUp) => ({
+    type: actionTypes.CHANGE_PLAYLIST_SHOW_UP,
+    playListShowUp
+})
