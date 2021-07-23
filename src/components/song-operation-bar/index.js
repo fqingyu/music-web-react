@@ -22,7 +22,6 @@ export default memo(function CMSongOperationBar(props) {
       dispatch(actionCreators.changeIsPlayingAction(true));
     }
     else if (currentSong && currentSong.id === ids) {
-      dispatch(actionCreators.changeCurrentTimeMSAction(0));
       const audioDom = document.querySelector('.audio');
       audioDom.currentTime = 0;
       audioDom.play();

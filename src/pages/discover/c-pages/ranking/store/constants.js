@@ -1,0 +1,1 @@
+export const CHANGE_TOP_LIST = "ranking/CHANGE_TOP_LIST";

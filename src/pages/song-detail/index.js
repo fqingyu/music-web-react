@@ -27,7 +27,7 @@ export default memo(function CMSongDetail(props) {
     useEffect(() => {
         dispatch(getShowSongDetailAction(id));
         return () => {
-            dispatch(cleanShowSongAction())
+            dispatch(cleanShowSongAction());
         }
     }, [dispatch, id])
 
