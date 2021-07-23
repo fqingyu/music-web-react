@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { changeBlurImage } from '@/utils/format-utils';
-import { changePlayListAction } from '../../../store/actionCreators';
+import { changePlayListAction, changePlayListShowUpAction } from '../../../store/actionCreators';
 
 import { PlayListWrapper, PlayListHeader, PlayListContent } from './style';
 import CMPlayListSong from '@/components/playlist-song';
@@ -34,6 +34,10 @@ export default memo(function CMPlayList() {
         dispatch(changePlayListAction([]));
     }, [dispatch])
 
+    const changeShowUp = useCallback(() => {
+        dispatch(changePlayListShowUpAction(false));
+    }, [dispatch])
+
     return (
         <PlayListWrapper showUp={playListShowUp}>
             <PlayListHeader className="playlist_bg">
@@ -49,7 +53,7 @@ export default memo(function CMPlayList() {
                         清除
                     </button>
                     <p className="title">{currentSong.name}</p>
-                    <span className="sprite_playlist close">关闭</span>
+                    <span className="sprite_playlist close" onClick={e => changeShowUp()}>关闭</span>
                 </div>
             </PlayListHeader>
             <PlayListContent className="playlist_bg">

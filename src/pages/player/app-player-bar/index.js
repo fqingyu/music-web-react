@@ -199,7 +199,6 @@ export default memo(function CMPAppPlayerBar() {
     }, [duration, dispatch])
 
     const changeShowUp = useCallback(() => {
-        console.log(123);
         dispatch(changePlayListShowUpAction(!playListShowUp));
     }, [dispatch, playListShowUp])
 
