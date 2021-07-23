@@ -10,6 +10,7 @@ const defaultState = Map({
     lyric: [],
     currentLyricIndex: 0,
     playListShowUp: false,
+    volumeShowUp: false,
 
     isPlaying: false,
 })
@@ -31,6 +32,8 @@ function reducer(state = defaultState, action) {
             return state.set("currentLyricIndex", action.currentLyricIndex);
         case actionTypes.CHANGE_PLAYLIST_SHOW_UP:
             return state.set("playListShowUp", action.playListShowUp);
+        case actionTypes.CHANGE_VOLUME_SHOW_UP:
+            return state.set("volumeShowUp", action.volumeShowUp);
 
         // 进度条相关数据
         case actionTypes.CHANGE_IS_PLAYING:

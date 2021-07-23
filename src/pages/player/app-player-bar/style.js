@@ -21,6 +21,7 @@ export const PlayerBarWrapper = styled.div`
         transform: translateX(-50%);
         bottom: 0;
         height: 47px;
+        z-index: 5;
     }
 `
 
@@ -172,6 +173,7 @@ export const Operator = styled.div`
 
 
         .volume-wrapper {
+            display: ${props => props.volumeShowUp ? null : "none"};
             position: absolute;
             bottom: 40px;
             width: 32px;

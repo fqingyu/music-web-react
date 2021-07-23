@@ -126,3 +126,8 @@ export const changePlayListShowUpAction = (playListShowUp) => ({
     type: actionTypes.CHANGE_PLAYLIST_SHOW_UP,
     playListShowUp
 })
+
+export const changeVolumeShowUpAction = (volumeShowUp) => ({
+    type: actionTypes.CHANGE_VOLUME_SHOW_UP,
+    volumeShowUp
+})

@@ -11,7 +11,8 @@ import {
     changeCurrentLyricIndexAction,
     changeCurrentIndexAndSong,
     changeIsPlayingAction,
-    changePlayListShowUpAction
+    changePlayListShowUpAction,
+    changeVolumeShowUpAction
 } from '../store/actionCreators';
 
 import CMPlayList from './c-cpns/play-list';
@@ -34,7 +35,8 @@ export default memo(function CMPAppPlayerBar() {
         lyric,
         currentLyricIndex,
         isPlaying,
-        playListShowUp
+        playListShowUp,
+        volumeShowUp
     } = useSelector(state => ({
         currentSong: state.getIn(["player", "currentSong"]),
         playList: state.getIn(["player", "playList"]),
@@ -43,6 +45,7 @@ export default memo(function CMPAppPlayerBar() {
         currentLyricIndex: state.getIn(["player", "currentLyricIndex"]),
         isPlaying: state.getIn(["player", "isPlaying"]),
         playListShowUp: state.getIn(["player", "playListShowUp"]),
+        volumeShowUp: state.getIn(["player", "volumeShowUp"])
     }), shallowEqual);
     const dispatch = useDispatch();
 
@@ -213,9 +216,13 @@ export default memo(function CMPAppPlayerBar() {
         audioRef.current.volume = volume;
     }, [])
 
-    const changeShowUp = useCallback(() => {
+    const changePlayListShowUp = useCallback(() => {
         dispatch(changePlayListShowUpAction(!playListShowUp));
     }, [dispatch, playListShowUp])
+
+    const changeVolumeShowUp = useCallback(() => {
+        dispatch(changeVolumeShowUpAction(!volumeShowUp));
+    }, [dispatch, volumeShowUp])
 
     return (
         <PlayerBarWrapper className="sprite_playbar">
@@ -253,7 +260,7 @@ export default memo(function CMPAppPlayerBar() {
                         </div>
                     </div>
                 </PlayInfo>
-                <Operator sequence={sequence}>
+                <Operator sequence={sequence} volumeShowUp={volumeShowUp}>
                     <div className="left">
                         <button title="画中画歌词" className="sprite_in btn in" />
                         <button title="收藏" className="sprite_playbar btn favor" />
@@ -271,9 +278,9 @@ export default memo(function CMPAppPlayerBar() {
                                 onAfterChange={volumeAfterChange}
                                 />
                         </div>
-                        <button className="sprite_playbar btn volume" />
+                        <button className="sprite_playbar btn volume" onClick={e => changeVolumeShowUp()}/>
                         <button className="sprite_playbar btn loop" onClick={e => changeSequence()} />
-                        <button className="sprite_playbar btn playlist" onClick={e => changeShowUp()}>
+                        <button className="sprite_playbar btn playlist" onClick={e => changePlayListShowUp()}>
                             <span className="songs-count">{playList.length}</span>
                         </button>
                     </div>
