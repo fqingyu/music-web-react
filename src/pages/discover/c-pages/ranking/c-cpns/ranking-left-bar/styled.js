@@ -37,4 +37,8 @@ export const RankingLeftBarWrapper = styled.div`
             }
         }
     }
+
+    .active-exact {
+        background: #e6e6e6!important;
+    }
 `

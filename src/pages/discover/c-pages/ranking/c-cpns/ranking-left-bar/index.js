@@ -6,7 +6,10 @@ import { getSizeImage } from '@/utils/format-utils';
 
 import { RankingLeftBarWrapper } from "./styled";
 
-export default memo(function CMRankingLeftBar() {
+export default memo(function CMRankingLeftBar(props) {
+    
+    // inner state
+    const { activeId } = props;
 
     // redux hooks
     const { topList } = useSelector(state => ({
@@ -19,6 +22,7 @@ export default memo(function CMRankingLeftBar() {
         <RankingLeftBarWrapper>
             {
                 topList.map((item, index) => {
+
                     let header;
                     if (index === 0 || index === 4) {
                         header = <h2>
@@ -27,19 +31,27 @@ export default memo(function CMRankingLeftBar() {
                             }
                             </h2>
                     }
+
                     let space;
                     if (index === 3) {
                         space = <div className="space" />
                     }
+
+                    let className;
+                    if((activeId && activeId===item.id.toString()) || !activeId && item.id.toString() === "19723756") {
+                        className = "item active-exact";
+                    }
+                    else {
+                        className = "item";
+                    }
                     return (
                         <div key={item.id}>
                             {header}
-                            <NavLink to={`/discover/ranking?id=${item.id}`} className="item">
-                                
+                            <NavLink to={`/discover/ranking?id=${item.id}`} replace className={className}>
                                 <div className="left">
-                                    <NavLink className="avatar" to={`/discover/ranking?id=${item.id}`}>
+                                    <div className="avatar">
                                         <img src={getSizeImage(item.coverImgUrl, 40)} alt={item.name} />
-                                    </NavLink>
+                                    </div>
                                 </div>
                                 <div className="right">
                                     <p className="name">{item.name}</p>

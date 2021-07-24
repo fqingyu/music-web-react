@@ -4,7 +4,7 @@ export const PlayListWrapper = styled.div`
     display: ${props => props.showUp ? null : "none"};
     position: absolute;
     left: 50%;
-    bottom: 47px;
+    bottom: 45px;
     width: 986px;
     height: 301px;
     margin-left: -493px;
