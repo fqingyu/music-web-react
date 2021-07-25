@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 
 export const RankingLeftBarWrapper = styled.div`
-    margin-top: 40px;
+    margin-top: 38px;
     h2 {
         padding: 0 10px 12px 15px;
         font-size: 14px;
         color: #000;
+        font-weight: bold;
+        font-family: simsun;
     }
 
     .space {

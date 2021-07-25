@@ -17,4 +17,6 @@ export const RankingRight = styled.div`
     width: 740px;
     height: 100%;
     padding-bottom: 50px;
+    background: white;
+    border-right: 1px solid rgb(211, 211, 211);
 `
