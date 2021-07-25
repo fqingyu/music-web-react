@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { getSizeImage } from '@/utils/format-utils';
 
-import { RankingLeftBarWrapper } from "./styled";
+import { RankingLeftBarWrapper } from "./style";
 
 export default memo(function CMRankingLeftBar(props) {
     
@@ -15,8 +15,6 @@ export default memo(function CMRankingLeftBar(props) {
     const { topList } = useSelector(state => ({
         topList: state.getIn(["ranking", "topList"])
     }))
-
-    console.log(topList);
 
     return (
         <RankingLeftBarWrapper>
@@ -38,7 +36,7 @@ export default memo(function CMRankingLeftBar(props) {
                     }
 
                     let className;
-                    if((activeId && activeId===item.id.toString()) || !activeId && item.id.toString() === "19723756") {
+                    if((activeId && activeId===item.id.toString()) || (!activeId && item.id.toString() === "19723756")) {
                         className = "item active-exact";
                     }
                     else {

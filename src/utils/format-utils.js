@@ -31,3 +31,17 @@ export function changeBlurImage(picStr) {
     const blurImg = "//music.163.com/api/img/blur/" + picStr;
     return blurImg;
 }
+
+export function msToDate(timestamp) {
+    if(!timestamp) return;
+    const date = new Date(timestamp);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    
+    if(month < 10) {
+        return `0${month}月${day}日`;
+    }
+    else {
+        return `${month}月${day}日`;
+    }
+}

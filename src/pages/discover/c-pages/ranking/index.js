@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from "react";
 import queryString from 'query-string';
 
-import { getTops } from './store/actionCreator';
+import { changeTopList, changeRankingList } from './store/actionCreator';
 import { useDispatch } from 'react-redux';
 
 import { RankingWrapper, RankingLeft, RankingRight } from "./style";
@@ -18,8 +18,13 @@ export default memo(function CMRanking(props) {
 
   // other hooks
   useEffect(() => {
-    dispatch(getTops());   
-  }, [dispatch])
+    dispatch(changeTopList());
+    let tempId = id;
+    if(!tempId) {
+      tempId = "19723756";
+    }
+    dispatch(changeRankingList(tempId));
+  }, [dispatch, id])
 
   return (
       <RankingWrapper className="wrap-v2">
