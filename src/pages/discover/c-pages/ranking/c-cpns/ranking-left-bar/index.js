@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { getSizeImage } from '@/utils/format-utils';
@@ -14,7 +14,7 @@ export default memo(function CMRankingLeftBar(props) {
     // redux hooks
     const { topList } = useSelector(state => ({
         topList: state.getIn(["ranking", "topList"])
-    }))
+    }), shallowEqual)
 
     return (
         <RankingLeftBarWrapper>

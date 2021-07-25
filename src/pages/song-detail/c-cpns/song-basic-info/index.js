@@ -1,9 +1,10 @@
 import React, { memo, useState, useEffect } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { getSizeImage } from '@/utils/format-utils';
 import default_album from '@/assets/img/default_album.jpg';
+import { actionCreators } from '@/pages/player/store';
 
 import { SongCover, SongDetailWrapper } from './style';
 import CMSongOperationBar from '@/components/song-operation-bar';
@@ -14,11 +15,14 @@ export default memo(function CMSongBasicInfo() {
     const [moreLyric, setmoreLyric] = useState(false);
 
     // redux logics
-    const { showSong, showSongComments, showSongLyric } = useSelector((state) => ({
+    const { showSong, currentSong, showSongComments, showSongLyric, playList } = useSelector((state) => ({
         showSong: state.getIn(["songDetail", "showSong"]),
+        currentSong: state.getIn(["player", "currentSong"]),
         showSongComments: state.getIn(["songDetail", "showSongComments"]),
-        showSongLyric: state.getIn(["songDetail", "showSongLyric"])
+        showSongLyric: state.getIn(["songDetail", "showSongLyric"]),
+        playList: state.getIn(["player", "playList"]),
     }), shallowEqual)
+    const dispatch = useDispatch();
 
     // other logics
     const picUrl = (showSong.al && getSizeImage(showSong.al.picUrl)) || default_album;
@@ -52,6 +56,21 @@ export default memo(function CMSongBasicInfo() {
         lyricSecond = wholeLyric.slice(10);
     }
 
+    // 播放
+    const play = () => {
+        if (currentSong && (currentSong.id !== showSong.id ||  playList.length === 0)) {
+          dispatch(actionCreators.getSongDetailAction(showSong.id))
+          dispatch(actionCreators.changeIsPlayingAction(true));
+        }
+        else if (currentSong && currentSong.id === showSong.id) {
+          const audioDom = document.querySelector('.audio');
+          audioDom.currentTime = 0;
+          audioDom.play();
+          dispatch(actionCreators.changeIsPlayingAction(true));
+        }
+    }
+
+    // 切换页面取消更多歌词显示
     useEffect(() => {
         return () => {
             setmoreLyric(false)
@@ -107,7 +126,7 @@ export default memo(function CMSongBasicInfo() {
                         shareTitle="分享"
                         downloadTitle="下载"
                         commentTitle={`(${showSongComments.total ? showSongComments.total : 0})`} 
-                        ids={showSong.id}/>
+                        play={play}/>
                     <div className="lyric-content">
                         {
                             lyricFirst.map((item, index) => {

@@ -1,34 +1,19 @@
 import React, { memo, useCallback } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { OperationBarWrapper } from './style';
-import { actionCreators } from '@/pages/player/store';
+
 
 export default memo(function CMSongOperationBar(props) {
-  const { favorTitle, shareTitle, downloadTitle, commentTitle, ids } = props;
+  const { favorTitle, shareTitle, downloadTitle, commentTitle, play } = props;
 
   // redux hooks
-  const dispatch = useDispatch();
-  const { currentSong } = useSelector(state => ({
-    currentSong: state.getIn(["player", "currentSong"]),
-  }), shallowEqual);
 
   // other logics
   const playMusic = useCallback((e) => {
     e.preventDefault();
-    if (currentSong && currentSong.id !== ids) {
-      dispatch(actionCreators.getSongDetailAction(ids))
-      dispatch(actionCreators.changeIsPlayingAction(true));
-    }
-    else if (currentSong && currentSong.id === ids) {
-      const audioDom = document.querySelector('.audio');
-      audioDom.currentTime = 0;
-      audioDom.play();
-      dispatch(actionCreators.changeIsPlayingAction(true));
-    }
-    return false
-  }, [dispatch, currentSong, ids])
+    play();
+  }, [play])
 
   return (
     <OperationBarWrapper>

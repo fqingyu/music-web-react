@@ -1,9 +1,11 @@
-import React, { memo } from 'react'
+import React, { memo } from 'react';
+
+import { RankingDetailWrapper } from './style'
 
 export default memo(function CMRankingDetail() {
     return (
-        <div>
+        <RankingDetailWrapper>
             RankingDetail
-        </div>
+        </RankingDetailWrapper>
     )
 })

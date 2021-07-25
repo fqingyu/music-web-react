@@ -1,7 +1,7 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 
 import { getSizeImage, msToDate } from '@/utils/format-utils';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 
 import { RankingHeaderWrapper, RankingHeaderLeft, RankingHeaderRight } from './style';
 import CMSongOperationBar from '@/components/song-operation-bar';
@@ -9,9 +9,9 @@ import CMSongOperationBar from '@/components/song-operation-bar';
 export default memo(function CMRankingHeader() {
 
     // redux hooks
-    const { rankingList, topList } = useSelector(state => ({
+    const { rankingList } = useSelector(state => ({
         rankingList: state.getIn(["ranking", "rankingList"])
-    }))
+    }), shallowEqual)
 
     // other logic
     const imageUrl = rankingList && rankingList.coverImgUrl;
@@ -40,10 +40,10 @@ export default memo(function CMRankingHeader() {
                         <span className="frequency">{`（${frequencyText}）`}</span>
                     </div>
                 </div>
-                <CMSongOperationBar favorTitle={`(${rankingList.subscribedCount})`} 
-                    shareTitle={`(${rankingList.shareCount})`}
+                <CMSongOperationBar favorTitle={`(${rankingList.subscribedCount  || 0})`} 
+                    shareTitle={`(${rankingList.shareCount  || 0})`}
                     downloadTitle="下载"
-                    commentTitle={`(${rankingList.commentCount})`}
+                    commentTitle={`(${rankingList.commentCount || 0})`}
                 />
             </RankingHeaderRight>
         </RankingHeaderWrapper>
