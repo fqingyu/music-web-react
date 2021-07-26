@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { msToTime } from '@/utils/format-utils';
-import { changeCurrentIndexAndSong, changeIsPlayingAction, changePlayListAction } from '@/pages/player/store/actionCreators';
+import { changeCurrentIndexAndSongByClick, changeIsPlayingAction, changePlayListAction } from '@/pages/player/store/actionCreators';
 
 
 import { PlayListSongWrapper } from './style';
@@ -24,9 +24,8 @@ export default memo(function CMPlayListSong(props) {
     // other logic
     const changeMusic = useCallback((e) => {
         if(!e.target.classList.contains('icon')) {
-            console.log(123);
             if (currentSongIndex !== index) {
-                dispatch(changeCurrentIndexAndSong(2, index));
+                dispatch(changeCurrentIndexAndSongByClick(index));
             }
     
             else {

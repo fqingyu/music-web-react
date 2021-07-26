@@ -34,7 +34,8 @@ export const changeCurrentLyricIndexAction = (currentLyricIndex) => ({
     currentLyricIndex
 })
 
-export const changeCurrentIndexAndSong = (tag, index=0) => {
+// 自动播放完毕时根据当前播放顺序决定夏一首歌
+export const changeCurrentIndexAndSong = (tag) => {
     return (dispatch, getState) => {
         const sequence = getState().getIn(["player", "sequence"]);
         const playList = getState().getIn(["player", "playList"]);
@@ -47,15 +48,26 @@ export const changeCurrentIndexAndSong = (tag, index=0) => {
                 }
                 currentSongIndex = randomIndex;
                 break;
-            case 2: // 指定播放
-                currentSongIndex = index;
-                break;
             default: // 顺序播放
                 currentSongIndex += tag;
                 if (currentSongIndex >= playList.length) currentSongIndex = 0;
                 if (currentSongIndex < 0) currentSongIndex = playList.length - 1;
         }
 
+        const currentSong = playList[currentSongIndex];
+        dispatch(changeCurrentSongAction(currentSong));
+        dispatch(changeCurrentSongIndexAction(currentSongIndex));
+
+        // 请求歌词
+        dispatch(getLyricAction(currentSong.id));
+    }
+}
+
+// 播放列表点击时切换到对应歌曲
+export const changeCurrentIndexAndSongByClick = (index) => {
+    return (dispatch, getState) => {
+        const playList = getState().getIn(["player", "playList"]);
+        const currentSongIndex = index;
         const currentSong = playList[currentSongIndex];
         dispatch(changeCurrentSongAction(currentSong));
         dispatch(changeCurrentSongIndexAction(currentSongIndex));
