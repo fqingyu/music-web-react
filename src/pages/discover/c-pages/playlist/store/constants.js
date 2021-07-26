@@ -1,0 +1,4 @@
+export const CHANGE_PLAYLISTS = "playlist/CHANGE_PLAYLISTS";
+export const CHANGE_CURRENT_CATEGORY = "playlist/CHANGE_CURRENT_CATEGORY";
+export const CHANGE_TOTAL_PAGES = "playlist/CHANGE_TOTAL_PAGES";
+export const CHANGE_CURRENT_PAGE = "playlist/CHANGE_CURRENT_PAGE";

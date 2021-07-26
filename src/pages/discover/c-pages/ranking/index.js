@@ -11,7 +11,7 @@ import CMRankingDetail from './c-cpns/ranking-detail';
 
 export default memo(function CMRanking(props) {
   // inner state
-  const { id } = queryString.parse(props.location.search)
+  const { id } = queryString.parse(props.location.search);
   
   // redux hooks
   const dispatch = useDispatch();

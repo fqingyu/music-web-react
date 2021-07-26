@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import CMDiscover from "@/pages/discover";
 import CMRecommend from '@/pages/discover/c-pages/recommend';
 import CMRanking from '@/pages/discover/c-pages/ranking';
-import CMSongs from '@/pages/discover/c-pages/songs';
+import CMPlaylist from '@/pages/discover/c-pages/playlist';
 import CMDjradio from '@/pages/discover/c-pages/djradio';
 import CMArtist from '@/pages/discover/c-pages/artist';
 import CMAlbum from '@/pages/discover/c-pages/album';
@@ -41,8 +41,8 @@ const routes = [
                 component: CMRanking
             },
             {
-                path: "/discover/songs",
-                component: CMSongs
+                path: "/discover/playlist",
+                component: CMPlaylist
             },
             {
                 path: "/discover/djradio",
