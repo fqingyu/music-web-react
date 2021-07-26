@@ -7,6 +7,8 @@ const defaultState = Map({
     currentCategory: "",
     totalPages: 0,
     currentPage: 0,
+
+    catList: [],
 })
 
 function reducer(state = defaultState, action) {
@@ -19,6 +21,8 @@ function reducer(state = defaultState, action) {
             return state.set("totalPages", action.totalPages);
         case actionTypes.CHANGE_CURRENT_PAGE:
             return state.set("currentPage", action.currentPage);
+        case actionTypes.CHANGE_CAT_LIST:
+            return state.set("catList", action.catList);
         default:
             return state;
     }

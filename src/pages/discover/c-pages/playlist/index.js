@@ -2,7 +2,7 @@ import React, { memo, useEffect } from 'react';
 import queryString from 'query-string';
 import {useDispatch} from 'react-redux';
 
-import { getPlayListDetail } from './store/actionCreators';
+import { getPlayListDetail, getPlayListMenu } from './store/actionCreators';
 
 import { PlayListWrapper } from './style';
 import CMThemeHeaderPlayList from '@/components/theme-header-playlist';
@@ -17,7 +17,8 @@ export default memo(function CMPlaylist(props) {
     // other hooks
     useEffect(() => {
         dispatch(getPlayListDetail(cat, offset, limit, order));
-    }, [cat, offset, limit, order])
+        dispatch(getPlayListMenu());
+    }, [dispatch, cat, offset, limit, order])
 
     return (
         <PlayListWrapper className="wrap-v2">
