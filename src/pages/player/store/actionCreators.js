@@ -34,7 +34,7 @@ export const changeCurrentLyricIndexAction = (currentLyricIndex) => ({
     currentLyricIndex
 })
 
-// 自动播放完毕时根据当前播放顺序决定夏一首歌
+// 自动播放完毕时根据当前播放顺序决定下一首歌
 export const changeCurrentIndexAndSong = (tag) => {
     return (dispatch, getState) => {
         const sequence = getState().getIn(["player", "sequence"]);
@@ -74,6 +74,16 @@ export const changeCurrentIndexAndSongByClick = (index) => {
 
         // 请求歌词
         dispatch(getLyricAction(currentSong.id));
+    }
+}
+
+// 播放当前排行榜歌曲
+export const changeRankingListSong = (playList) => {
+    return dispatch => {
+        const currentSong = playList[0];
+        dispatch(changePlayListAction(playList));
+        dispatch(changeCurrentSongAction(currentSong));
+        dispatch(changeCurrentSongIndexAction(0));
     }
 }
 

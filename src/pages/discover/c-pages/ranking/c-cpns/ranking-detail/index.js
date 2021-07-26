@@ -1,19 +1,39 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 
-import { useSelector, shallowEqual } from 'react-redux'
+import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import {
     getSizeImage,
     msToTime
-} from "@/utils/format-utils.js"
+} from "@/utils/format-utils.js";
+import { actionCreators } from '@/pages/player/store';
 
 import { RankingDetailWrapper } from './style';
 import CMThemeHeaderRanking from '@/components/theme-header-ranking'
 
 export default memo(function CMRankingDetail() {
 
-    const {rankingList} = useSelector(state => ({
+    // redux hooks
+    const { currentSong, rankingList } = useSelector(state => ({
+        currentSong: state.getIn(["player", "currentSong"]),
         rankingList: state.getIn(["ranking", "rankingList"])
     }), shallowEqual);
+    const dispatch = useDispatch();
+
+    // other hooks && other logics
+    const playMusic = useCallback((item) => {
+        const playList = rankingList.tracks || [];
+        if (currentSong && (currentSong.id !== item.id || playList.length === 0)) {
+            dispatch(actionCreators.getSongDetailAction(item.id))
+            dispatch(actionCreators.changeIsPlayingAction(true));
+        }
+        else if (currentSong && currentSong.id === item.id) {
+            const audioDom = document.querySelector('.audio');
+            audioDom.currentTime = 0;
+            audioDom.play();
+            dispatch(actionCreators.changeIsPlayingAction(true));
+        }
+    }, [dispatch, currentSong, rankingList])
+
     const tracks = rankingList.tracks || [];
 
     return (
@@ -46,7 +66,7 @@ export default memo(function CMRankingDetail() {
                                                     index < 3 ?
                                                         (<img src={getSizeImage(item.al.picUrl, 50)} alt="" />) : null
                                                 }
-                                                <span className="play sprite_table"></span>
+                                                <span className="play sprite_table" onClick={e => playMusic(item)}></span>
                                                 <span className="name">{item.name}</span>
                                             </div>
                                         </td>

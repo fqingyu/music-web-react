@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 
 import { getSizeImage, msToDate } from '@/utils/format-utils';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { changeRankingListSong } from '@/pages/player/store/actionCreators';
 
 import { RankingHeaderWrapper, RankingHeaderLeft, RankingHeaderRight } from './style';
 import CMSongOperationBar from '@/components/song-operation-bar';
@@ -12,16 +13,28 @@ export default memo(function CMRankingHeader() {
     const { rankingList } = useSelector(state => ({
         rankingList: state.getIn(["ranking", "rankingList"])
     }), shallowEqual)
+    const dispatch = useDispatch();
+
+    // other hooks
+    // 播放排行榜所有歌曲
+    const playRankingList = useCallback(() => {
+        const playList = rankingList && rankingList.tracks;
+        dispatch(changeRankingListSong(playList));
+    }, [dispatch, rankingList])
+
+    useEffect(() => {
+        const activeRanking = document.querySelector('.active-exact .frequency');
+        let frequencyText = "";
+        if (activeRanking) {
+            frequencyText = activeRanking.innerText;
+            document.querySelector('.time-wrapper .frequency').innerText = `（${frequencyText}）`;
+        }
+    }, [rankingList])
 
     // other logic
     const imageUrl = rankingList && rankingList.coverImgUrl;
 
-    const activeRanking = document.querySelector('.active-exact .frequency');
-    let frequencyText = "";
-    if (activeRanking) {
-        frequencyText = activeRanking.innerText;
-    }
-
+    
 
     return (
         <RankingHeaderWrapper>
@@ -37,13 +50,14 @@ export default memo(function CMRankingHeader() {
                     <div className="time-wrapper">
                         <i className="icon sprite_icon2"></i>
                         <span className="update-time">最近更新：{msToDate(rankingList.updateTime)}</span>
-                        <span className="frequency">{`（${frequencyText}）`}</span>
+                        <span className="frequency"></span>
                     </div>
                 </div>
                 <CMSongOperationBar favorTitle={`(${rankingList.subscribedCount  || 0})`} 
                     shareTitle={`(${rankingList.shareCount  || 0})`}
                     downloadTitle="下载"
                     commentTitle={`(${rankingList.commentCount || 0})`}
+                    play={playRankingList}
                 />
             </RankingHeaderRight>
         </RankingHeaderWrapper>
