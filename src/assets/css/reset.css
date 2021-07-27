@@ -156,6 +156,10 @@ button {
     background: url(../img/sprite_footer_02.png) no-repeat;
 }
 
+.sprite_content {
+    background: url(../img/sltlyr.png) no-repeat;
+}
+
 .image_cover {
     position: absolute;
     left: 0;
