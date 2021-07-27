@@ -17,3 +17,12 @@ export function getSongLyric(id) {
         }
     })
 }
+
+export function getPlaylist(id) {
+    return request({
+        url:"/playlist/detail",
+        params: {
+            id
+        }
+    })
+}

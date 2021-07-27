@@ -174,12 +174,12 @@ button {
     background: url(../img/playlist_bg.png);
 }
 
-.lyric-class .ant-message-notice-content {
+.notice-class .ant-message-notice-content {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
     bottom: 60px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.9);
     color: #fff;
 }
 

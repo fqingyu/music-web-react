@@ -1,8 +1,9 @@
 import React, { memo, useEffect } from 'react';
 import queryString from 'query-string';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getPlayListDetail, getPlayListMenu } from './store/actionCreators';
+import { changePlaylists } from '@/pages/player/store/actionCreators';
 
 import { PlayListWrapper } from './style';
 import CMThemeHeaderPlayList from '@/components/theme-header-playlist';
@@ -24,17 +25,21 @@ export default memo(function CMPlaylist(props) {
         dispatch(getPlayListMenu());
     }, [dispatch, cat, offset, limit, order])
 
+    const playLists = (id) => {
+        dispatch(changePlaylists(id));
+    }
+
     return (
         <PlayListWrapper className="wrap-v2">
             <CMThemeHeaderPlayList />
             <div className="playlist-container">
-                    {
-                        playlists.map((item, index) => {
-                            return (
-                                <CMSongsCover key={item.name} info={item} displayAuthor={true} right={15}/>
-                            )
-                        })
-                    }
+                {
+                    playlists.map((item, index) => { 
+                        return (
+                            <CMSongsCover key={item.name} info={item} displayAuthor={true} right={15} play={() => playLists(item.id)} />
+                        )
+                    })
+                }
             </div>
         </PlayListWrapper>
     )

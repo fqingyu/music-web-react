@@ -1,4 +1,4 @@
-import { getSongDetail, getSongLyric } from '@/services/player';
+import { getSongDetail, getSongLyric, getPlaylist } from '@/services/player';
 import { getRandom } from '@/utils/math-utils';
 import { parseLyric } from '@/utils/parse-lyric';
 
@@ -84,6 +84,26 @@ export const changeRankingListSong = (playList) => {
         dispatch(changePlayListAction(playList));
         dispatch(changeCurrentSongAction(currentSong));
         dispatch(changeCurrentSongIndexAction(0));
+
+        // 请求歌词
+        dispatch(getLyricAction(currentSong.id));
+    }
+}
+
+export const changePlaylists = (id) => {
+    return dispatch => {
+        getPlaylist(id).then(res => {
+            const playList = (res.playlist && res.playlist.tracks) || [];
+            if(playList) {
+                const currentSong = playList[0];
+                dispatch(changePlayListAction(playList));
+                dispatch(changeCurrentSongAction(currentSong));
+                dispatch(changeCurrentSongIndexAction(0));
+
+                // 请求歌词
+                dispatch(getLyricAction(currentSong.id));
+            }
+        })
     }
 }
 

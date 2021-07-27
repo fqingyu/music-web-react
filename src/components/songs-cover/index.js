@@ -11,7 +11,7 @@ import { SongsCoverWrapper } from './style'
 
 const CMSongsCover = memo(function (props) {
     // inner state
-    const { info, right, displayAuthor } = props;
+    const { info, right, displayAuthor, play } = props;
 
     // ohter logic
     const displayAuthorPart = useCallback((displayAuthor) => {
@@ -27,6 +27,10 @@ const CMSongsCover = memo(function (props) {
         }
     }, [info])
 
+    const playSongs = useCallback(() => {
+        play();
+    }, [play])
+
     return (
         <SongsCoverWrapper right={right}>
             <NavLink className="cover-top" title={info.name} to={`/playlist?id=${info.id}`}>
@@ -39,7 +43,7 @@ const CMSongsCover = memo(function (props) {
                             <i className="sprite_icon headset"></i>
                             {getCount(info.playCount)}
                         </span>
-                        <i className="sprite_icon play-icon"></i>
+                        <i className="sprite_icon play-icon" onClick={e => playSongs()}/>
                     </div>
             <div className="cover-bottom">
                 {info.name}
@@ -55,12 +59,14 @@ const CMSongsCover = memo(function (props) {
 CMSongsCover.propTypes = {
     info: PropTypes.object.isRequired,
     right: PropTypes.number,
-    displayAuthor: PropTypes.bool
+    displayAuthor: PropTypes.bool,
+    play: PropTypes.func
 }
 
 CMSongsCover.defaultProps = {
     right: 0,
-    displayAuthor: false
+    displayAuthor: false,
+    play: null
 }
 
 export default CMSongsCover;

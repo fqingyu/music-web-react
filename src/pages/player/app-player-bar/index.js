@@ -17,7 +17,7 @@ import {
 
 import CMPlayList from './c-cpns/play-list';
 import { PlayerBarWrapper, Control, PlayInfo, Operator } from './style';
-import { Slider } from 'antd';
+import { Slider, message } from 'antd';
 
 export default memo(function CMPAppPlayerBar() {
     // inner state
@@ -55,10 +55,15 @@ export default memo(function CMPAppPlayerBar() {
     useEffect(() => {
         audioRef.current.src = getPlaySong(currentSong.id);
         if (currentSong.id) {
+
             audioRef.current.play().then(res => {
                 dispatch(changeIsPlayingAction(true));
             }).catch(err => {
                 dispatch(changeIsPlayingAction(false));
+                message.open({
+                    content: "因为版权原因，暂时无法播放此歌曲",
+                    className: 'notice-class',
+                })
             })
             setCurrentTimeMS(0);
             setProgress(0);
@@ -149,6 +154,7 @@ export default memo(function CMPAppPlayerBar() {
             }
         }
     }, [bufferedPercent, currentLyricIndex, currentTimeMS, dispatch, duration, isChanging, lyric, progress])
+
     const changeMusic = useCallback((tag) => {
         dispatch(changeCurrentIndexAndSong(tag));
     }, [dispatch])
@@ -272,13 +278,13 @@ export default memo(function CMPAppPlayerBar() {
                                 vertical
                                 defaultValue={50}
                                 className="volume-slider"
-                                tooltipVisible={false} 
-                                value={volume*100}
+                                tooltipVisible={false}
+                                value={volume * 100}
                                 onChange={volumeChange}
                                 onAfterChange={volumeAfterChange}
-                                />
+                            />
                         </div>
-                        <button className="sprite_playbar btn volume" onClick={e => changeVolumeShowUp()}/>
+                        <button className="sprite_playbar btn volume" onClick={e => changeVolumeShowUp()} />
                         <button className="sprite_playbar btn loop" onClick={e => changeSequence()} />
                         <button className="sprite_playbar btn playlist" onClick={e => changePlayListShowUp()}>
                             <span className="songs-count">{playList.length}</span>
