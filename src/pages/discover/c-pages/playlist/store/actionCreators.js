@@ -11,15 +11,15 @@ const CHANGE_CURRENT_CATEGORY_ACTION = (currentCategory) => ({
     currentCategory
 })
 
-const CHANGE_TOTAL_PAGES_ACTION = (totalPages) => ({
-    type: actionTypes.CHANGE_TOTAL_PAGES,
-    totalPages
+const CHANGE_TOTAL_ITEMS_ACTION = (totalItems) => ({
+    type: actionTypes.CHANGE_TOTAL_ITEMS,
+    totalItems
 })
 
-const CHANGE_CURRENT_PAGE_ACTION = (currentPage) => ({
-    type: actionTypes.CHANGE_CURRENT_PAGE,
-    currentPage
-})
+// const CHANGE_CURRENT_PAGE_ACTION = (currentPage) => ({
+//     type: actionTypes.CHANGE_CURRENT_PAGE,
+//     currentPage
+// })
 
 const CHANGE_CAT_LIST_ACTION = (catList) => ({
     type: actionTypes.CHANGE_CAT_LIST,
@@ -32,14 +32,14 @@ export const getPlayListDetail = (cat, offset = 0, limit = 35, order = "hot") =>
         getPlayListCategoryList(cat, offset, limit, order).then((res) => {
             const playlists = res.playlists;
             const currentCategory = res.cat;
-            const totalPages = Math.ceil((res.total || 0) / limit);
-            const currentPage = Math.ceil(offset / limit) + 1;
+            const totalItems = res.total || 0;
+            // const currentPage = Math.ceil(offset / limit) + 1;
 
             // 派发
             dispatch(CHANGE_PLAYLISTS_ACTION(playlists));
             dispatch(CHANGE_CURRENT_CATEGORY_ACTION(currentCategory));
-            dispatch(CHANGE_TOTAL_PAGES_ACTION(totalPages));
-            dispatch(CHANGE_CURRENT_PAGE_ACTION(currentPage));
+            dispatch(CHANGE_TOTAL_ITEMS_ACTION(totalItems));
+            // dispatch(CHANGE_CURRENT_PAGE_ACTION(currentPage));
         })
     }
 }
