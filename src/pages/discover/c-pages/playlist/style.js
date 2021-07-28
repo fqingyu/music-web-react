@@ -8,7 +8,6 @@ export const PlayListWrapper = styled.div`
     border-right: 1px solid rgb(211, 211, 211);
     
     .playlist-container {
-        /* margin: 30px 0 0 -50px; */
         margin-top: 10px;
         display: flex;
         flex-wrap: wrap;

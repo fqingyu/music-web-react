@@ -16,11 +16,6 @@ const CHANGE_TOTAL_ITEMS_ACTION = (totalItems) => ({
     totalItems
 })
 
-// const CHANGE_CURRENT_PAGE_ACTION = (currentPage) => ({
-//     type: actionTypes.CHANGE_CURRENT_PAGE,
-//     currentPage
-// })
-
 const CHANGE_CAT_LIST_ACTION = (catList) => ({
     type: actionTypes.CHANGE_CAT_LIST,
     catList

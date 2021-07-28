@@ -6,7 +6,6 @@ const defaultState = Map({
     playlists: [],
     currentCategory: "",
     totalItems: 0,
-    // currentPage: 0,
 
     catList: [],
 })
