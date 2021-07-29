@@ -1,14 +1,15 @@
 import React, { memo, useEffect } from 'react';
+import { renderRoutes } from 'react-router-config';
 
 import { getDjradioCategories } from './store/actionCreators';
 import { useDispatch } from 'react-redux';
 
 import { DjRadioWrapper } from './style';
-import CMRadioCategory from './c-cpns/radio-category';
 
-export default memo(function CMDjradio() {
 
+export default memo(function CMDjradio(props) {
     // inner state
+    const { route } = props;
 
     // redux hooks
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export default memo(function CMDjradio() {
 
     return (
         <DjRadioWrapper className="wrap-v2">
-            <CMRadioCategory />
+            {renderRoutes(route.routes)}
         </DjRadioWrapper>
     )
 })

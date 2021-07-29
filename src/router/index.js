@@ -4,7 +4,11 @@ import CMDiscover from "@/pages/discover";
 import CMRecommend from '@/pages/discover/c-pages/recommend';
 import CMRanking from '@/pages/discover/c-pages/ranking';
 import CMPlaylist from '@/pages/discover/c-pages/playlist';
+
 import CMDjradio from '@/pages/discover/c-pages/djradio';
+import CMDjradioPage from '@/pages/discover/c-pages/djradio/c-cpns/djradio-page';
+import CMCategoryDetail from '@/pages/discover/c-pages/djradio/c-cpns/category-detail';
+
 import CMArtist from '@/pages/discover/c-pages/artist';
 import CMAlbum from '@/pages/discover/c-pages/album';
 import CMSongDetail from '@/pages/song-detail';
@@ -46,7 +50,18 @@ const routes = [
             },
             {
                 path: "/discover/djradio",
-                component: CMDjradio
+                component: CMDjradio,
+                routes: [
+                    {
+                        path: "/discover/djradio",
+                        exact: true,
+                        component: CMDjradioPage
+                    },
+                    {
+                        path: "/discover/djradio/category",
+                        component: CMCategoryDetail
+                    }
+                ]
             },
             {
                 path: "/discover/artist",
