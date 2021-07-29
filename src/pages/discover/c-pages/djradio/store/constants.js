@@ -1,0 +1,1 @@
+export const CHANGE_CATEGORIES =  "djradio/CHANGE_CATEGORIES";

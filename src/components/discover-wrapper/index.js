@@ -16,7 +16,7 @@ export default memo(function CMDiscoverWrapper(props) {
                         dicoverMenu.map((item, index) => {
                             return (
                                 <div className="item" key={item.title}>
-                                    <NavLink to={item.link}>
+                                    <NavLink to={item.link} replace>
                                         {item.title}
                                         {
                                             item.title === '歌单' ? <span className="icon" /> : null
