@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import { renderRoutes } from 'react-router-config';
 
-import { getDjradioCategories } from './store/actionCreators';
+import { getDjradioCategories, getSongRecommend } from './store/actionCreators';
 import { useDispatch } from 'react-redux';
 
 import { DjRadioWrapper } from './style';
@@ -17,6 +17,7 @@ export default memo(function CMDjradio(props) {
     // other hooks
     useEffect(() => {
         dispatch(getDjradioCategories());
+        dispatch(getSongRecommend());
     }, [dispatch])
 
     return (

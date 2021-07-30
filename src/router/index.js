@@ -7,7 +7,7 @@ import CMPlaylist from '@/pages/discover/c-pages/playlist';
 
 import CMDjradio from '@/pages/discover/c-pages/djradio';
 import CMDjradioPage from '@/pages/discover/c-pages/djradio/c-cpns/djradio-page';
-import CMCategoryDetail from '@/pages/discover/c-pages/djradio/c-cpns/category-detail';
+import CMCategoryDetail from '@/pages/category-detail';
 
 import CMArtist from '@/pages/discover/c-pages/artist';
 import CMAlbum from '@/pages/discover/c-pages/album';

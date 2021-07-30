@@ -4,6 +4,7 @@ import radio_slide from '@/assets/img/radio_slide.png';
 
 export const RadioCategoryWrapper = styled.div`
     position: relative;
+    margin-bottom: 20px;
     .box {
         .item {
             float: left;
@@ -14,6 +15,7 @@ export const RadioCategoryWrapper = styled.div`
                 height: 70px;
                 background-position: 0 9999px;
                 text-align: center;
+                font-size: 12px;
                 color: #888;
                 .image {
                     width: 48px;

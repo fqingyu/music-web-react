@@ -18,3 +18,5 @@ export const CAT_NAMES = [
     ["情感", "emotion"],
     ["主题", "theme"]
 ];
+// 2, 6, 3, 2001, 11
+export const DJRADIO_CAT = [2, 6, 3, 2001, 11];
