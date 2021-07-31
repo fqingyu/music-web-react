@@ -11,6 +11,8 @@ import { reducer as playReducer } from '../pages/player/store';
 
 // 各种详情页reducer
 import { reducer as songDetailReducer } from '../pages/song-detail/store';
+import { reducer as categoryDetailReducer } from '../pages/category-detail/store';
+
 
 const cReducer = combineReducers({
     recommend: recommendReducer,
@@ -20,7 +22,8 @@ const cReducer = combineReducers({
 
     player: playReducer,
     
-    songDetail: songDetailReducer
+    songDetail: songDetailReducer,
+    categoryDetail: categoryDetailReducer,
 });
 
 export default cReducer;

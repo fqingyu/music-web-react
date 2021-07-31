@@ -1,4 +1,4 @@
-import { getDjRadioCatelist, getDjRadioRecommend, getDjRadios } from '@/services/djradio';
+import { getDjRadioCatelist, getDjRadioRecommend } from '@/services/djradio';
 import { DJRADIO_CAT } from '@/common/constants';
 
 
