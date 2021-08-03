@@ -1,21 +1,21 @@
 import { Redirect } from 'react-router-dom';
+import React, { lazy } from 'react';
 
-import CMDiscover from "@/pages/discover";
-import CMRecommend from '@/pages/discover/c-pages/recommend';
-import CMRanking from '@/pages/discover/c-pages/ranking';
-import CMPlaylist from '@/pages/discover/c-pages/playlist';
+const CMDiscover = lazy(() => import("@/pages/discover"));
+const CMRecommend = lazy(() => import("@/pages/discover/c-pages/recommend"));
+const CMRanking = lazy(() => import("@/pages/discover/c-pages/ranking"));
+const CMPlaylist = lazy(() => import("@/pages/discover/c-pages/playlist"));
 
-import CMDjradio from '@/pages/discover/c-pages/djradio';
-import CMDjradioPage from '@/pages/discover/c-pages/djradio/c-cpns/djradio-page';
-import CMCategoryDetail from '@/pages/category-detail';
+const CMDjradio = lazy(() => import("@/pages/discover/c-pages/djradio"));
+const CMDjradioPage = lazy(() => import("@/pages/discover/c-pages/djradio/c-cpns/djradio-page"));
+const CMCategoryDetail = lazy(() => import("@/pages/category-detail"));
 
-import CMArtist from '@/pages/discover/c-pages/artist';
-import CMAlbum from '@/pages/discover/c-pages/album';
-import CMSongDetail from '@/pages/song-detail';
+const CMArtist = lazy(() => import("@/pages/discover/c-pages/artist"));
+const CMAlbum = lazy(() => import("@/pages/discover/c-pages/album"));
+const CMSongDetail = lazy(() => import("@/pages/song-detail"));
 
-import CMFriend from "@/pages/friend";
-import CMMy from "@/pages/my";
-
+const CMFriend = lazy(() => import("@/pages/friend"));
+const CMMy = lazy(() => import("@/pages/my"));
 
 const routes = [
     {
