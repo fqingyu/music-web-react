@@ -59,6 +59,7 @@ export default memo(function CMPAppPlayerBar() {
             audioRef.current.play().then(res => {
                 dispatch(changeIsPlayingAction(true));
             }).catch(err => {
+                console.log(err);
                 dispatch(changeIsPlayingAction(false));
                 message.open({
                     content: "因为版权原因，暂时无法播放此歌曲",
@@ -129,10 +130,30 @@ export default memo(function CMPAppPlayerBar() {
 
         // 获取当前的歌词
         let i = 0;
+        // a代表前三行中有多少歌词是两行的
+        // b代表前三行以外多少是一行的
+        // c代表前三行以外多少是两行的
+        // 最终判断transelateY应该是多少
+        let a = 0, b = 0, c = 0;
         for (; i < lyric.length; i++) {
             let lyricItem = lyric[i];
             if (currentTime * 1000 < lyricItem.time) {
                 break
+            }
+            if(i < 4) {
+                const element = document.querySelector(`.lyric-${i - 1}`);
+                if(element && element.offsetHeight > 32) {
+                    a += 1;
+                }
+            }
+            else if(i - 1 <= lyric.length - 3) {
+                const element = document.querySelector(`.lyric-${i - 1}`);
+                if(element && element.offsetHeight <= 32) {
+                    b += 1;
+                }
+                else {
+                    c += 1;
+                }
             }
         }
 
@@ -150,7 +171,9 @@ export default memo(function CMPAppPlayerBar() {
 
             if (i - 1 >= 4 && i - 1 <= lyric.length - 3) {
                 const lyricItem = document.querySelector('.list-lyric-wrapper');
-                lyricItem.style.transform = `translateY(${-(i - 4) * 32}px)`;
+                // lyricItem.style.transform = `translateY(${-(i - 4) * 32}px)`;
+
+                lyricItem.style.transform = `translateY(${-(a*32 + b*32 + c*64)}px)`;
             }
         }
     }, [bufferedPercent, currentLyricIndex, currentTimeMS, dispatch, duration, isChanging, lyric, progress])
