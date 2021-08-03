@@ -158,8 +158,14 @@ export function getPlaySong(id) {
 export function getLyricAction(id) {
     return dispatch => {
         getSongLyric(id).then(res => {
-            const lyric = parseLyric(res.lrc.lyric);
-            dispatch(changeLyricListAction(lyric))
+            const lyric = (res.lrc && parseLyric(res.lrc.lyric)) || [];
+            if(!lyric) {
+                dispatch(changeLyricListAction([]));
+            }
+            else {
+                dispatch(changeLyricListAction(lyric));
+            }
+            
         })
     }
 }
