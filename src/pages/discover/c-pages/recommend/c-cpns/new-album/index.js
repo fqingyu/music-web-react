@@ -32,13 +32,15 @@ export default memo(function CMNewAlbum() {
                     <Carousel dots={false} ref={pageRef}>
                         {
                             [0, 1].map((num) => {
-                                return <div key={num} className="page">
-                                    {
-                                        newAlbums.slice(num * NEW_ALBUM_PER_PAGE, (num + 1) * NEW_ALBUM_PER_PAGE).map(item => {
-                                            return <CMAlbumCover key={item.id} info={item} size={100} width={118} bgp={-570} />
-                                        })
-                                    }
-                                </div>
+                                if (newAlbums.length !== 0) {
+                                    return <div key={num} className="page">
+                                        {
+                                            newAlbums.slice(num * NEW_ALBUM_PER_PAGE, (num + 1) * NEW_ALBUM_PER_PAGE).map(item => {
+                                                return <CMAlbumCover key={item.id} info={item} size={100} width={118} bgp={-570} />
+                                            })
+                                        }
+                                    </div>
+                                }
                             })
                         }
                     </Carousel>
